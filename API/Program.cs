@@ -1,8 +1,11 @@
+using API.Extensions;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var currentAssembly = Assembly.GetExecutingAssembly();
+
+ApplicationServicesExtensions.AddApplicationServices(builder.Services, builder.Configuration, currentAssembly);
 
 var app = builder.Build();
 
