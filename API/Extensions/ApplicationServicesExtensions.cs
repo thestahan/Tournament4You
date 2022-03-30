@@ -1,4 +1,4 @@
-﻿using API.Data;
+using API.Data;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -11,7 +11,13 @@ public static class ApplicationServicesExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config, Assembly assembly)
     {
-        services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssembly(assembly));
+        var currentAssembly = Assembly.GetExecutingAssembly();
+
+        services.AddControllers(opt =>
+        {
+            opt.Filters.Add<FluentValidationExceptionFilter>();
+            opt.Filters.Add<BadRequestExceptionFilter>();
+        });
 
         services.AddEndpointsApiExplorer();
 
@@ -21,7 +27,9 @@ public static class ApplicationServicesExtensions
         });
 
         services.AddAutoMapper(assembly);
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+        services.AddValidatorsFromAssembly(currentAssembly);
         services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase("Tournament4YouDb").ConfigureWarnings(builder => builder.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
 
         return services;
