@@ -10,8 +10,8 @@ public class Login
 {
     public record Command : IRequest<Result>
     {
-        public string Email { get; } = string.Empty;
-        public string Password { get; } = string.Empty;
+        public string Email { get; init; } = string.Empty;
+        public string Password { get; init; } = string.Empty;
     }
 
     public record Result
