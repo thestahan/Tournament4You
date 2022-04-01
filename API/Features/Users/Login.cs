@@ -8,17 +8,17 @@ namespace API.Features.Users;
 
 public class Login
 {
-    public class Command : IRequest<Result>
+    public record Command : IRequest<Result>
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Email { get; } = string.Empty;
+        public string Password { get; } = string.Empty;
     }
 
-    public class Result
+    public record Result
     {
-        public string Email { get; set; }
-        public string Token { get; set; }
-        public string TokenExpiration { get; set; }
+        public string Email { get; init; } = string.Empty;
+        public string Token { get; init; } = string.Empty;
+        public string TokenExpiration { get; init; } = string.Empty;
     }
 
     public class Handler : IRequestHandler<Command, Result>

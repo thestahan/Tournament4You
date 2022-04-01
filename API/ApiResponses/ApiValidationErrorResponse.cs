@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace API.ApiResponses;
+﻿namespace API.ApiResponses;
 
 public partial class ApiValidationErrorResponse : ApiResponse
 {
@@ -8,5 +6,5 @@ public partial class ApiValidationErrorResponse : ApiResponse
     {
     }
 
-    public IEnumerable<string> Errors { get; set; }
+    public IEnumerable<string> Errors { get; set; } = new List<string>();
 }

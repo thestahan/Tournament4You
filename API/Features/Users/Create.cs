@@ -8,15 +8,15 @@ namespace API.Features.Users;
 
 public class Create
 {
-    public class Command : IRequest<Result>
+    public record Command : IRequest<Result>
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Email { get; } = string.Empty;
+        public string Password { get; } = string.Empty;
     }
 
-    public class Result
+    public record Result
     {
-        public string Email { get; set; }
+        public string Email { get; init; } = string.Empty;
     }
 
     public class Handler : IRequestHandler<Command, Result>
@@ -35,13 +35,19 @@ public class Create
         {
             bool emailExists = await _userManager.FindByEmailAsync(request.Email) != null;
 
-            if (emailExists) throw new BadHttpRequestException("Email address is in use.");
+            if (emailExists)
+            {
+                throw new BadHttpRequestException("Email address is in use.");
+            }
 
             var user = _mapper.Map<AppUser>(request);
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
-            if (!result.Succeeded) throw new BadHttpRequestException("Couldn't create an account.");
+            if (!result.Succeeded)
+            {
+                throw new BadHttpRequestException("Couldn't create an account.");
+            }
 
             return new Result { Email = request.Email };
         }
