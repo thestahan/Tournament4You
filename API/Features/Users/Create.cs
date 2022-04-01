@@ -1,5 +1,4 @@
-﻿using API.Data;
-using API.Domain;
+﻿using API.Domain;
 using AutoMapper;
 using FluentValidation;
 using MediatR;

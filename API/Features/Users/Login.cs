@@ -1,5 +1,6 @@
 ﻿using API.Domain;
 using API.Interfaces;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -56,6 +57,15 @@ public class Login
                 Token = jwt,
                 TokenExpiration = "86400"
             };
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(c => c.Email).NotEmpty().EmailAddress();
+                RuleFor(c => c.Password).NotEmpty().MinimumLength(8);
+            }
         }
     }
 }

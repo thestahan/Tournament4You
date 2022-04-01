@@ -6,6 +6,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -28,21 +29,17 @@ public static class ApplicationServicesExtensions
         services.AddSwaggerGen(cfg =>
         {
             cfg.SwaggerDoc("v1", new OpenApiInfo { Title = "Tournament4You API", Version = "v1" });
+            cfg.CustomSchemaIds(type => type.ToString());
         });
 
         services.AddAutoMapper(currentAssembly);
 
         services.AddMediatR(currentAssembly);
 
-        //services.AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssembly(currentAssembly));
-
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         services.AddValidatorsFromAssembly(currentAssembly);
 
-        //services.AddTransient<ValidationExceptionHandlingMiddleware>();
-
-        services.AddValidatorsFromAssembly(currentAssembly);
         services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase("Tournament4YouDb").ConfigureWarnings(builder => builder.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
 
         services.AddScoped<ITokenService, TokenService>();
