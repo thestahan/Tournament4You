@@ -1,9 +1,8 @@
 ﻿using API.Domain;
 
-namespace API.Interfaces
+namespace API.Interfaces;
+
+public interface ITokenService
 {
-    public interface ITokenService
-    {
-        string CreateToken(AppUser user, IList<string> roles);
-    }
+    string CreateToken(AppUser user);
 }
