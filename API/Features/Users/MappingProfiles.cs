@@ -7,7 +7,7 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<Create.Command, AppUser>()
+        CreateMap<Register.Command, AppUser>()
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
     }
 }
