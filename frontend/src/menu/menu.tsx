@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import colors from "common/colors";
+import { colors } from "common/colors";
 import { NavLink } from "react-router-dom";
 
 const Container = styled.div`
