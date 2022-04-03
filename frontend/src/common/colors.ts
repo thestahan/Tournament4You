@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {
+export const colors = {
   white: "#FFFFFF",
   black: "#000000",
   darkGray: "#A9A9A9",

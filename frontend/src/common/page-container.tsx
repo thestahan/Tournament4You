@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Menu from "menu/menu";
-import colors from "./colors";
+import { colors } from "./colors";
 
 const Container = styled.div`
   margin: 0;
@@ -10,6 +10,7 @@ const Container = styled.div`
 const Content = styled.div`
   width: 100%;
   height: 100vh;
+  padding: 50px;
   background-color: ${colors.whiteSmoke};
 `;
 

@@ -24,11 +24,11 @@ const DashboardRoute = () => {
         <div>
           <Header>Nie jestem zalogowany</Header>
           <br />
-          <ui.Input
+          <ui.TextInput
             label="Firstname"
             value={firstname}
             setValue={setFirstname}
-          ></ui.Input>
+          ></ui.TextInput>
           <ui.PasswordInput
             label="Password"
             value={password}
