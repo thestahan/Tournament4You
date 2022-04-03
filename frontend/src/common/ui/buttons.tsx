@@ -27,5 +27,3 @@ export const SecondaryButton = () => {
 export const RadioButton = () => {
   return <div></div>;
 };
-
-// export default PrimaryButton;
