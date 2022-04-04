@@ -1,3 +1,4 @@
+using API.Data;
 using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,8 @@ ApplicationServicesExtensions.AddApplicationServices(builder.Services, builder.C
 IdentityServiceExtensions.AddIdentityServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
+
+await DbContextHelpers.UpdateDatabase(app);
 
 if (app.Environment.IsDevelopment())
 {
