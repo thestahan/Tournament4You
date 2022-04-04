@@ -1,4 +1,4 @@
-﻿using API.Behaviors;
+using API.Behaviors;
 using API.Data;
 using API.Interfaces;
 using API.Services;
@@ -39,7 +39,7 @@ public static class ApplicationServicesExtensions
 
         services.AddValidatorsFromAssembly(currentAssembly);
 
-        services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase("Tournament4YouDb").ConfigureWarnings(builder => builder.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
+        services.AddDbContext<ApiDbContext>(opt => opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Tournament4YouDB;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
         services.AddScoped<ITokenService, TokenService>();
 
