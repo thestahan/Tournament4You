@@ -1,11 +1,10 @@
 using API.Extensions;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var currentAssembly = Assembly.GetExecutingAssembly();
+ApplicationServicesExtensions.AddApplicationServices(builder.Services, builder.Configuration);
 
-ApplicationServicesExtensions.AddApplicationServices(builder.Services, builder.Configuration, currentAssembly);
+IdentityServiceExtensions.AddIdentityServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
@@ -16,6 +15,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

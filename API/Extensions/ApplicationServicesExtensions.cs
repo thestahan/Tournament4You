@@ -1,7 +1,8 @@
 using API.Behaviors;
 using API.Data;
+using API.Interfaces;
+using API.Services;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -12,7 +13,7 @@ namespace API.Extensions;
 
 public static class ApplicationServicesExtensions
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config, Assembly assembly)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
         var currentAssembly = Assembly.GetExecutingAssembly();
 
@@ -27,13 +28,28 @@ public static class ApplicationServicesExtensions
         services.AddSwaggerGen(cfg =>
         {
             cfg.SwaggerDoc("v1", new OpenApiInfo { Title = "Tournament4You API", Version = "v1" });
+            cfg.CustomSchemaIds(type => type.ToString());
         });
 
-        services.AddAutoMapper(assembly);
+        services.AddAutoMapper(currentAssembly);
+
+        services.AddMediatR(currentAssembly);
+
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         services.AddValidatorsFromAssembly(currentAssembly);
+
         services.AddDbContext<ApiDbContext>(opt => opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Tournament4YouDB;Trusted_Connection=True;MultipleActiveResultSets=true"));
+
+        services.AddScoped<ITokenService, TokenService>();
+
+        services.AddCors(opt =>
+        {
+            opt.AddPolicy("CorsPolicy", policy =>
+            {
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000", "http://localhost:3001");
+            });
+        });
 
         return services;
     }
