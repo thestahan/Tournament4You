@@ -8,6 +8,6 @@ namespace API.Domain
         public string LastName { get; set; } = string.Empty;
         public string Login { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public ICollection<Tournament> Tournaments { get; set; }
+        public ICollection<Tournament> Tournaments { get; set; } = new List<Tournament>();
     }
 }

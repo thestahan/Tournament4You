@@ -9,6 +9,6 @@ public class Tournament
     public int TeamCount { get; set; }
     public bool HasFinished { get; set; }
     public AppUser Organizer { get; set; }
-    public Team WinnerTeam  { get; set; }
-    public ICollection<Match> Matches { get; set; }
+    public Team? WinnerTeam { get; set; }
+    public ICollection<Match> Matches { get; set; } = new List<Match>();
 }
