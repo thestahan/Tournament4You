@@ -1,3 +1,4 @@
+using API.Data;
 using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ IdentityServiceExtensions.AddIdentityServices(builder.Services, builder.Configur
 
 var app = builder.Build();
 
+await DbContextHelpers.UpdateDatabase(app);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -15,6 +18,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

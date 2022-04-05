@@ -18,13 +18,14 @@ public class Login
     {
         public string Email { get; init; } = string.Empty;
         public string Token { get; init; } = string.Empty;
-        public string TokenExpiration { get; init; } = string.Empty;
+        public string TokenExpirationSeconds { get; init; } = string.Empty;
     }
 
     public class Handler : IRequestHandler<Command, Result>
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly string _tokenExpirationInSeconds = "86400";
 
         public Handler(UserManager<AppUser> userManager,
                        ITokenService tokenService)
@@ -44,7 +45,7 @@ public class Login
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
 
-            if (result is false)
+            if (!result)
             {
                 throw new BadHttpRequestException("Login credentials are invalid.");
             }
@@ -55,7 +56,7 @@ public class Login
             {
                 Email = request.Email,
                 Token = jwt,
-                TokenExpiration = "86400"
+                TokenExpirationSeconds = _tokenExpirationInSeconds
             };
         }
     }

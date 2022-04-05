@@ -1,11 +1,10 @@
-﻿using API.Behaviors;
+using API.Behaviors;
 using API.Data;
 using API.Interfaces;
 using API.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -39,9 +38,17 @@ public static class ApplicationServicesExtensions
 
         services.AddValidatorsFromAssembly(currentAssembly);
 
-        services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase("Tournament4YouDb").ConfigureWarnings(builder => builder.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
+        services.AddDbContext<ApiDbContext>(opt => opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Tournament4YouDB;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
         services.AddScoped<ITokenService, TokenService>();
+
+        services.AddCors(opt =>
+        {
+            opt.AddPolicy("CorsPolicy", policy =>
+            {
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000", "http://localhost:3001");
+            });
+        });
 
         return services;
     }

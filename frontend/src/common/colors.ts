@@ -1,10 +1,12 @@
-export default {
+// eslint-disable-next-line import/no-anonymous-default-export
+export const colors = {
   white: "#FFFFFF",
   black: "#000000",
-  indigo: "#4B0082",
   darkGray: "#A9A9A9",
   dimGray: "#696969",
-  whiteSmoke: "#F5F5F5",
-  grey: "#808080",
-  darksLateGrey: "#262525",
+  whiteSmoke: "#f9fafc",
+  beige: "#F6E7D8",
+  salmon: "#F68989",
+  moderatePink: "#C65D7B",
+  darkMaroon: "#874356",
 };
