@@ -58,14 +58,14 @@ public class Login
                 TokenExpiration = "86400"
             };
         }
+    }
 
-        public class CommandValidator : AbstractValidator<Command>
+    public class CommandValidator : AbstractValidator<Command>
+    {
+        public CommandValidator()
         {
-            public CommandValidator()
-            {
-                RuleFor(c => c.Email).NotEmpty().EmailAddress();
-                RuleFor(c => c.Password).NotEmpty().MinimumLength(8);
-            }
+            RuleFor(c => c.Email).NotEmpty().EmailAddress();
+            RuleFor(c => c.Password).NotEmpty().MinimumLength(8);
         }
     }
 }
