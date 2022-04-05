@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace API.Features.Users;
 
-public class Create
+public class Register
 {
     public record Command : IRequest<Result>
     {

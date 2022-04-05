@@ -6,9 +6,9 @@ namespace API.Features.Users;
 public class UsersController : BaseApiController
 {
     [HttpPost("register")]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Create.Result))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Register.Result))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<Create.Result>> Create(Create.Command command)
+    public async Task<ActionResult<Register.Result>> Create(Register.Command command)
     {
         var result = await Mediator.Send(command);
 
