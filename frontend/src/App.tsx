@@ -1,7 +1,14 @@
 import styled from "@emotion/styled";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import PageContainer from "common/page-container";
-import SignupRoute from "account/signup-route";
+import {
+  BrowserRouter as Router,
+  Route,
+  RouteProps,
+  Switch,
+  useHistory,
+  Redirect,
+} from "react-router-dom";
+import { FC } from "react";
+
 import LoginRoute from "account/login-route";
 import DashboardRoute from "dashboard/dashboard-route";
 import TournamentRoute from "tournaments/tournament-route";
@@ -9,35 +16,50 @@ import ArchiveRoute from "archive/archive-route";
 import AboutRoute from "about/about-route";
 import ContactRoute from "contact/contact-route";
 import TeamsRoute from "teams/teams-route";
+import RegisterRoute from "account/register-route";
+
+import PageContainer from "common/page-container";
+import { getToken } from "common/api/utils/local-storage";
 
 const Container = styled.div``;
 
+const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
+  const token = getToken();
+
+  return (
+    <Route
+      {...rest}
+      render={() => (token !== null ? children : <Redirect to={"/login"} />)}
+    />
+  );
+};
+
 const MainRoutes = () => (
   <Switch>
-    <Route path="/" exact={true}>
-      <DashboardRoute />
-    </Route>
     <Route path="/login" exact={true}>
       <LoginRoute />
     </Route>
     <Route path="/register" exact={true}>
-      <SignupRoute />
+      <RegisterRoute />
     </Route>
-    <Route path="/tournaments" exact={true}>
+    <ProtectedRoute path="/" exact={true}>
+      <DashboardRoute />
+    </ProtectedRoute>
+    <ProtectedRoute path="/tournaments" exact={true}>
       <TournamentRoute />
-    </Route>
-    <Route path="/teams" exact={true}>
+    </ProtectedRoute>
+    <ProtectedRoute path="/teams" exact={true}>
       <TeamsRoute />
-    </Route>
-    <Route path="/archives" exact={true}>
+    </ProtectedRoute>
+    <ProtectedRoute path="/archives" exact={true}>
       <ArchiveRoute />
-    </Route>
-    <Route path="/contact" exact={true}>
+    </ProtectedRoute>
+    <ProtectedRoute path="/contact" exact={true}>
       <ContactRoute />
-    </Route>
-    <Route path="/about" exact={true}>
+    </ProtectedRoute>
+    <ProtectedRoute path="/about" exact={true}>
       <AboutRoute />
-    </Route>
+    </ProtectedRoute>
   </Switch>
 );
 
