@@ -1,7 +1,7 @@
-﻿using API.Domain;
+﻿using API.CustomValidators;
+using API.Domain;
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.Validators;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -13,12 +13,11 @@ public class Register
     {
         public string Email { get; init; } = string.Empty;
         public string Password { get; init; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;      
+        public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
     }
-    
 
-        public record Result
+    public record Result
     {
         public string Email { get; init; } = string.Empty;
     }
@@ -63,9 +62,8 @@ public class Register
         {
             RuleFor(c => c.Email).NotEmpty().EmailAddress();
             RuleFor(c => c.Password).NotEmpty().MinimumLength(8);
-            RuleFor(c => c.FirstName).NotEmpty().Matches("^[a-zA-Z]*$");
-            RuleFor(c => c.LastName).NotEmpty().NotEqual(c => c.FirstName).WithMessage("Last name should be different from the first name").Matches("^[a-zA-Z]*$");
+            RuleFor(c => c.FirstName).NotEmpty().AllowOnlyLetters();
+            RuleFor(c => c.LastName).NotEmpty().NotEqual(c => c.FirstName).WithMessage("'{PropertyName}' should be different from the first name").AllowOnlyLetters();
         }
     }
-
 }
