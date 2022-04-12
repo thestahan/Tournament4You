@@ -38,7 +38,7 @@ public static class ApplicationServicesExtensions
 
         services.AddValidatorsFromAssembly(currentAssembly);
 
-        services.AddDbContext<ApiDbContext>(opt => opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Tournament4YouDB;Trusted_Connection=True;MultipleActiveResultSets=true"));
+        services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql("Server=localhost; Port=5432; User Id=appuser; Password=secret; Database=tournament4you"));
 
         services.AddScoped<ITokenService, TokenService>();
 
