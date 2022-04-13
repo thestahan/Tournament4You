@@ -2,6 +2,7 @@ import userAPI from "common/api/user/user-api";
 import * as ui from "common/ui";
 import { FormEvent, useState } from "react";
 
+
 const RegisterRoute: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -9,6 +10,7 @@ const RegisterRoute: React.FC = () => {
   const [lastname, setLastname] = useState("");
 
   const api = userAPI();
+  const history = useHistory();
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -19,6 +21,7 @@ const RegisterRoute: React.FC = () => {
         firstname: firstname,
         lastname: lastname,
       })
+
       .then(() =>
         api
           .login({ email: email, password: password })
@@ -27,6 +30,7 @@ const RegisterRoute: React.FC = () => {
           })
           .then(() => (window.location.href = "/"))
       );
+
   };
 
   return (
