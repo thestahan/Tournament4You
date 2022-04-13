@@ -1,19 +1,27 @@
-import { FormEvent, useState } from "react";
-import * as ui from "common/ui";
 import userAPI from "common/api/user/user-api";
+import * as ui from "common/ui";
+import { FormEvent, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const RegisterRoute: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
 
   const api = userAPI();
+  const history = useHistory();
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
-    api.register({
-      email: email,
-      password: password,
-    });
+    api
+      .register({
+        email: email,
+        password: password,
+        firstname: firstname,
+        lastname: lastname,
+      })
+      .then(() => history.push("/"));
   };
 
   return (
@@ -23,6 +31,16 @@ const RegisterRoute: React.FC = () => {
           label="Email"
           value={email}
           setValue={setEmail}
+        ></ui.TextInput>
+        <ui.TextInput
+          label="Firstname"
+          value={firstname}
+          setValue={setFirstname}
+        ></ui.TextInput>
+        <ui.TextInput
+          label="Lastname"
+          value={lastname}
+          setValue={setLastname}
         ></ui.TextInput>
         <ui.PasswordInput
           label="Password"

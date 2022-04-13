@@ -16,3 +16,13 @@ export const getAuthenticatedUser = (token: string) => {
 };
 
 export const getToken = () => localStorage.getItem("token");
+
+export const isAuthenticated = (): boolean => {
+  const token = getToken();
+
+  if (token === null || token === "undefined" || token === "") {
+    return false;
+  } else {
+    return true;
+  }
+};

@@ -1,9 +1,13 @@
 import styled from "@emotion/styled";
+import userAPI from "common/api/user/user-api";
 import { colors } from "common/colors";
+import { AuthContext } from "common/provide-auth";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { images } from "common";
 
 const Container = styled.div`
-  width: 250px;
+  min-width: 250px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -15,16 +19,25 @@ const Container = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  width: 100%;
+  align-items: center;
+  display: flex;
   height: 15%;
+  justify-content: center;
+  width: 100%;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 const MenuContent = styled.div`
-  display: flex;
-  justify-content: center;
   align-items: center;
+  border-top: 2px solid ${colors.black};
+  display: flex;
   flex-direction: column;
-
+  justify-content: center;
+  padding-top: 40px;
   row-gap: 40px;
 `;
 
@@ -39,55 +52,73 @@ const MenuItemLink = styled(NavLink)`
 
   &.active {
     background-color: ${colors.moderatePink};
-    padding: 0px 10px;
     border-radius: 10px;
+    color: white;
+    padding: 5px 10px;
   }
 `;
 
 const MenuItem = styled.div`
-  width: 80%;
-  text-decoration: none;
-  text-align; center;
-  font-size: 24px;
+color: ${colors.black};
+cursor: pointer;
+font-size: 24px;
+text-decoration: none;
+text-align; center;
+text-style: none;
+width: 80%;
 
-  text-style: none;
-  color: ${colors.black};
-
-  &.active {
-    background-color: ${colors.moderatePink};
-    padding: 0px 10px;
-    border-radius: 10px;
-  }
 `;
 
 const AuthContent = styled.div`
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
   margin-top: auto;
   margin-bottom: 30px;
-
   row-gap: 40px;
 `;
 
-const Menu: React.FC = () => {
+const Menu = (): JSX.Element => {
+  const authenticated = useContext(AuthContext);
+  const api = userAPI();
   return (
     <Container>
-      <LogoContainer>LOGO</LogoContainer>
-      <MenuContent>
-        <MenuItemLink to="/" exact={true}>
-          Home
-        </MenuItemLink>
-        <MenuItemLink to="/tournaments">Tournaments</MenuItemLink>
-        <MenuItemLink to="teams">Teams</MenuItemLink>
-        <MenuItemLink to="/archives">Archive</MenuItemLink>
-        <MenuItemLink to="/contact">Contact</MenuItemLink>
-        <MenuItemLink to="/about">About us</MenuItemLink>
-      </MenuContent>
-      <AuthContent>
-        <MenuItem>Logout</MenuItem>
-      </AuthContent>
+      <LogoContainer>
+        <img src={images.LogoBlack} alt="logo" />
+      </LogoContainer>
+      {authenticated ? (
+        <>
+          <MenuContent>
+            <MenuItemLink to="/" exact={true}>
+              Home
+            </MenuItemLink>
+            <MenuItemLink to="/tournaments">Tournaments</MenuItemLink>
+            <MenuItemLink to="teams">Teams</MenuItemLink>
+            <MenuItemLink to="/archives">Archive</MenuItemLink>
+            <MenuItemLink to="/contact">Contact</MenuItemLink>
+            <MenuItemLink to="/about">About us</MenuItemLink>
+          </MenuContent>
+          <AuthContent>
+            <MenuItem
+              onClick={() => {
+                api.logout();
+                window.location.href = "/login";
+              }}
+            >
+              Logout
+            </MenuItem>
+          </AuthContent>
+        </>
+      ) : (
+        <MenuContent>
+          <MenuItemLink to="/" exact={true}>
+            Home
+          </MenuItemLink>
+          <MenuItemLink to="/register">Signup</MenuItemLink>
+          <MenuItemLink to="/login">Login</MenuItemLink>
+        </MenuContent>
+      )}
     </Container>
   );
 };

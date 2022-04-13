@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { isAuthenticated } from "common/api/utils/local-storage";
 
 const Container = styled.div`
   height: 100%;
@@ -10,11 +10,11 @@ const Header = styled.div`
 `;
 
 const DashboardRoute = () => {
-  const [currentUser, setCurrentUser] = useState(false);
+  const authenticated = isAuthenticated();
 
   return (
     <Container>
-      {currentUser ? (
+      {authenticated ? (
         <div>Jestem zalogowany</div>
       ) : (
         <div>
