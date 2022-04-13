@@ -1,25 +1,23 @@
 import styled from "@emotion/styled";
+import AboutRoute from "about/about-route";
+import LoginRoute from "account/login-route";
+import RegisterRoute from "account/register-route";
+import ArchiveRoute from "archive/archive-route";
+import { getToken } from "common/api/utils/local-storage";
+import PageContainer from "common/page-container";
+import ContactRoute from "contact/contact-route";
+import DashboardRoute from "dashboard/dashboard-route";
+import { FC } from "react";
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   RouteProps,
   Switch,
-  useHistory,
-  Redirect,
 } from "react-router-dom";
-import { FC } from "react";
-
-import LoginRoute from "account/login-route";
-import DashboardRoute from "dashboard/dashboard-route";
-import TournamentRoute from "tournaments/tournament-route";
-import ArchiveRoute from "archive/archive-route";
-import AboutRoute from "about/about-route";
-import ContactRoute from "contact/contact-route";
 import TeamsRoute from "teams/teams-route";
-import RegisterRoute from "account/register-route";
-
-import PageContainer from "common/page-container";
-import { getToken } from "common/api/utils/local-storage";
+import TournamentRoute from "tournaments/tournament-route";
+import AuthProvider from "common/provide-auth";
 
 const Container = styled.div``;
 
@@ -42,9 +40,9 @@ const MainRoutes = () => (
     <Route path="/register" exact={true}>
       <RegisterRoute />
     </Route>
-    <ProtectedRoute path="/" exact={true}>
+    <Route path="/" exact={true}>
       <DashboardRoute />
-    </ProtectedRoute>
+    </Route>
     <ProtectedRoute path="/tournaments" exact={true}>
       <TournamentRoute />
     </ProtectedRoute>
@@ -65,13 +63,15 @@ const MainRoutes = () => (
 
 const App = () => {
   return (
-    <Container>
-      <Router>
-        <PageContainer>
-          <MainRoutes />
-        </PageContainer>
-      </Router>
-    </Container>
+    <AuthProvider>
+      <Container>
+        <Router>
+          <PageContainer>
+            <MainRoutes />
+          </PageContainer>
+        </Router>
+      </Container>
+    </AuthProvider>
   );
 };
 

@@ -1,8 +1,7 @@
-import { FormEvent, useState } from "react";
-import * as ui from "common/ui";
 import userAPI from "common/api/user/user-api";
-import { getAuthenticatedUser, getToken } from "common/api/utils/local-storage";
 import { handleErrors } from "common/api/utils/handle-errors";
+import * as ui from "common/ui";
+import { FormEvent, useState } from "react";
 
 const LoginRoute: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +18,10 @@ const LoginRoute: React.FC = () => {
       })
       .then((response) => {
         localStorage.setItem("token", response.token);
+
+        if (response.token !== undefined) {
+          window.location.href = "/";
+        }
       })
       .catch(handleErrors);
   };
