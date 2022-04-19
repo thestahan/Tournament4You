@@ -1,17 +1,17 @@
 ﻿using API.ApiResponses;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Net;
 
-namespace API.Behaviors;
+namespace API.Behaviors.Filters;
 
-public class FluentValidationExceptionFilter : IExceptionFilter
+public class BadRequestExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-        if (context.Exception is ValidationException ex)
+        if (context.Exception is BadHttpRequestException ex)
         {
-            var errorResponse = new ApiValidationErrorResponse { Errors = ex.Errors.Select(e => e.ErrorMessage).ToList() };
+            var errorResponse = new ApiResponse((int)HttpStatusCode.BadRequest, ex.Message);
 
             context.Result = new BadRequestObjectResult(errorResponse);
 

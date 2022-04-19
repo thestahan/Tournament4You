@@ -1,4 +1,5 @@
 using API.Behaviors;
+using API.Behaviors.Filters;
 using API.Data;
 using API.Interfaces;
 using API.Services;
