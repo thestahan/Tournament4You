@@ -1,7 +1,7 @@
 import userAPI from "common/api/user/user-api";
 import * as ui from "common/ui";
 import { FormEvent, useState } from "react";
-import { useHistory } from "react-router-dom";
+
 
 const RegisterRoute: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +21,16 @@ const RegisterRoute: React.FC = () => {
         firstname: firstname,
         lastname: lastname,
       })
-      .then(() => history.push("/"));
+
+      .then(() =>
+        api
+          .login({ email: email, password: password })
+          .then((response) => {
+            localStorage.setItem("token", response.token);
+          })
+          .then(() => (window.location.href = "/"))
+      );
+
   };
 
   return (
