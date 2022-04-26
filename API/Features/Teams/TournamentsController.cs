@@ -14,11 +14,11 @@ public class TournamentsController : BaseApiController
     {
         var result = await Mediator.Send(command);
 
-        return CreatedAtRoute(nameof(GetById), new { id = result.Id }, result);
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetById()
+    public async Task<ActionResult<int>> GetById(int id)
     {
         throw new NotImplementedException();
     }
