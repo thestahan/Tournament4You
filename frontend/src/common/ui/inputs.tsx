@@ -36,39 +36,31 @@ export const Icon = styled.i`
   cursor: pointer;
 `;
 
-export const TextInput: React.FC<InputInterface> = ({
-  label,
-  value,
-  setValue,
-}) => {
-  return (
-    <Container>
-      <StyledInput
-        placeholder={label}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-    </Container>
-  );
-};
-
 export const PasswordInput: React.FC<InputInterface> = ({
   label,
   value,
   setValue,
+  id,
+  name,
+  incorrect,
+  onBlur,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <Container>
       <StyledInput
+        id={id}
+        name={name}
         type={showPassword ? "text" : "password"}
         placeholder={label}
         style={{
           paddingRight: "25px",
         }}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={setValue}
+        onBlur={onBlur}
+        incorrect={incorrect}
       />
       <Icon
         className={showPassword ? "pi pi-eye mr-2" : "pi pi-eye-slash mr-2"}
