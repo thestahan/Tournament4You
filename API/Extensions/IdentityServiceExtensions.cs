@@ -11,11 +11,11 @@ namespace API.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
-            var builder = services.AddIdentityCore<AppUser>()
-                .AddRoles<IdentityRole>()
-                .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
+            var builder = services
+                .AddIdentityCore<AppUser>()
+                .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider); ;
 
-            builder = new IdentityBuilder(builder.UserType, builder.RoleType, builder.Services);
+            builder = new IdentityBuilder(builder.UserType, builder.Services);
             builder.AddEntityFrameworkStores<ApiDbContext>();
             builder.AddSignInManager<SignInManager<AppUser>>();
 
