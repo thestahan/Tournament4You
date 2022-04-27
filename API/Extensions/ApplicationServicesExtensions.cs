@@ -43,6 +43,8 @@ public static class ApplicationServicesExtensions
 
         services.AddScoped<ITokenService, TokenService>();
 
+        services.AddScoped<IUserAccessor, UserAccessor>();
+
         services.AddCors(opt =>
         {
             opt.AddPolicy("CorsPolicy", policy =>
