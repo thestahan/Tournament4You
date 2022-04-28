@@ -36,9 +36,4 @@ public class UsersController : BaseApiController
 
         return NoContent();
     }
-
-    private ActionResult<Update.Result> BadHttpRequestException(string v)
-    {
-        throw new NotImplementedException();
-    }
 }
