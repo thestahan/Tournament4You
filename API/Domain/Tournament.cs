@@ -8,6 +8,7 @@ public class Tournament
     public DateTime? EndDate { get; set; }
     public int TeamCount { get; set; }
     public bool HasFinished { get; set; }
+    public string OrganizerId { get; set; } = string.Empty;
     public AppUser Organizer { get; set; } = default!;
     public Team? WinnerTeam { get; set; }
     public ICollection<Match> Matches { get; set; } = new List<Match>();

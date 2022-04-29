@@ -9,5 +9,7 @@ public class MappingProfiles : Profile
     {
         CreateMap<Add.Command, Team>();
         CreateMap<Team, Add.Result>();
+
+        CreateMap<Team, GetById.Result>();
     }
 }
