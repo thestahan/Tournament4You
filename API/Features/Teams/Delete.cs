@@ -15,9 +15,9 @@ public class Delete
     {
         public int Id { get; set; }
     }
+
     public class Result
     {
-
     }
 
     public class Handler : IRequestHandler<Command, Result>
@@ -25,8 +25,6 @@ public class Delete
         private readonly ApiDbContext _context;
         private readonly IUserAccessor _userAccessor;
         private readonly UserManager<AppUser> _userManager;
-
-
 
         public Handler(ApiDbContext context, IUserAccessor userAccessor, UserManager<AppUser> userManager)
         {

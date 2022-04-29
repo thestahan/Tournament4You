@@ -26,7 +26,6 @@ public class TeamsController : BaseApiController
 
         return Ok(result);
     }
-
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(GetById.Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
