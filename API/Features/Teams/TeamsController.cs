@@ -25,5 +25,15 @@ public class TeamsController : BaseApiController
         var result = await Mediator.Send(new GetById.Query { Id = id });
 
         return Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(GetById.Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    public async Task<ActionResult> Delete(int id)
+    {
+        await Mediator.Send(new Delete.Command { Id = id });
+
+        return NoContent();
     }
 }
