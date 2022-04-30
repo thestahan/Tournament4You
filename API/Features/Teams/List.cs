@@ -1,7 +1,5 @@
-﻿using API.ApiResponses;
-using API.Data;
+﻿using API.Data;
 using API.Domain;
-using API.DTOs;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -12,20 +10,23 @@ using System.Security.Claims;
 
 namespace API.Features.Teams;
 
-public class GetById
+public class List
 {
     public record Query : IRequest<Result>
     {
-        public int Id { get; set; }
     }
 
     public record Result
     {
-        public int Id { get; init; }
-        public string Name { get; init; } = default!;
-        public string City { get; init; } = default!;
-        public string Coach { get; init; } = default!;
-        public List<PlayerDetailsDto> Players { get; init; } = new List<PlayerDetailsDto>();
+        public List<Team> Teams { get; init; } = new List<Team>();
+
+        public class Team
+        {
+            public int Id { get; init; }
+            public string Name { get; init; } = default!;
+            public string City { get; init; } = default!;
+            public string Coach { get; init; } = default!;
+        }
     }
 
     public class Handler : IRequestHandler<Query, Result>
@@ -49,19 +50,12 @@ public class GetById
 
             var userAccount = await _userManager.FindByEmailAsync(user.FindFirstValue(ClaimTypes.Email));
 
-            var team = await _context.Teams
-                .Include(t => t.Players)
-                .ThenInclude(p => p.Position)
-                .Where(t => t.Id == request.Id && t.OrganizerId == userAccount.Id)
-                .ProjectTo<Result>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(cancellationToken);
+            var teams = await _context.Teams
+                .Where(t => t.OrganizerId == userAccount.Id)
+                .ProjectTo<Result.Team>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
-            if (team is null)
-            {
-                throw new ApiObjectNotFoundException("Team of given id was not found");
-            }
-
-            return team;
+            return new Result { Teams = teams };
         }
     }
 }
