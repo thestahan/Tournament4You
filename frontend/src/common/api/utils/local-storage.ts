@@ -8,7 +8,7 @@ interface Decoded {
 
 export const getAuthenticatedUser = (token: string) => {
   const decoded: Decoded = JSON.parse(atob(token.split(".")[1]));
-  console.log(decoded);
+
   return {
     email: decoded.email,
     exp: decoded.exp,

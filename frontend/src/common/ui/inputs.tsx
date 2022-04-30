@@ -12,7 +12,6 @@ export const StyledInput = styled.input<{ incorrect?: boolean }>`
   border: none;
   border-bottom: 1px solid black;
   padding: 10px 5px 10px 0px;
-  position: relative;
   width: 200px;
   background-color: ${colors.whiteSmoke};
   font-size: 16px;
