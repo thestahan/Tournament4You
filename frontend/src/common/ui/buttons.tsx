@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { NavLink } from "react-router-dom";
 import { colors } from "../colors";
 
 type Props = {
@@ -14,7 +15,7 @@ export const StyledButton = styled.button<Props>`
   text-transform: none;
   -webkit-appearance: button;
   overflow: visible;
-  border: none;
+  border-radius: 5px;
   cursor: pointer;
 
   width: fit-content;

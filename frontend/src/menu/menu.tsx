@@ -94,7 +94,7 @@ const Menu = (): JSX.Element => {
               Home
             </MenuItemLink>
             <MenuItemLink to="/tournaments">Tournaments</MenuItemLink>
-            <MenuItemLink to="teams">Teams</MenuItemLink>
+            <MenuItemLink to="/teams">Teams</MenuItemLink>
             <MenuItemLink to="/archives">Archive</MenuItemLink>
             <MenuItemLink to="/contact">Contact</MenuItemLink>
             <MenuItemLink to="/about">About us</MenuItemLink>
