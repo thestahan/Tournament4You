@@ -1,4 +1,5 @@
-﻿using API.Domain;
+﻿using API.Data.Configs;
+using API.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,8 @@ namespace API.Data
                 .WithMany()
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.ApplyConfiguration(new PositionsConfig());
         }
     }
 }
