@@ -5,6 +5,7 @@ import RegisterRoute from "account/register-route";
 import ArchiveRoute from "archive/archive-route";
 import { getToken } from "common/api/utils/local-storage";
 import PageContainer from "common/page-container";
+import AuthProvider from "common/provide-auth";
 import ContactRoute from "contact/contact-route";
 import DashboardRoute from "dashboard/dashboard-route";
 import { FC } from "react";
@@ -15,11 +16,8 @@ import {
   RouteProps,
   Switch,
 } from "react-router-dom";
-import TeamsRoute from "teams/teams-route";
+import { TeamsRouter } from "teams/teams-router";
 import TournamentRoute from "tournaments/tournament-route";
-import AuthProvider from "common/provide-auth";
-import { Team } from "teams/team/team-route";
-import { CreateTeam } from "teams/team/team-create";
 
 const Container = styled.div``;
 
@@ -48,14 +46,8 @@ const MainRoutes = () => (
     <ProtectedRoute path="/tournaments" exact={true}>
       <TournamentRoute />
     </ProtectedRoute>
-    <ProtectedRoute path="/teams" exact={true}>
-      <TeamsRoute />
-    </ProtectedRoute>
-    <ProtectedRoute path="/teams/create" exact={true}>
-      <CreateTeam />
-    </ProtectedRoute>
-    <ProtectedRoute path="/teams/:teamId" exact={true}>
-      <Team />
+    <ProtectedRoute path="/teams">
+      <TeamsRouter />
     </ProtectedRoute>
     <ProtectedRoute path="/archives" exact={true}>
       <ArchiveRoute />

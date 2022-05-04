@@ -1,6 +1,6 @@
 import { ErrorResponse } from "common/model/error-response";
 
-export const handleErrors = (response: ErrorResponse) => {
+export const handleErrors = (response: ErrorResponse | any) => {
   switch (response.statusCode) {
     case 400:
       if (response.errors) {
