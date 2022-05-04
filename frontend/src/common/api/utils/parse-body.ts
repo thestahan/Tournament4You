@@ -1,6 +1,5 @@
 export const parseBody = (response: Response): Promise<any> => {
   const contentType = response.headers.get("Content-Type") || "";
-  console.log(response);
   if (/text\/plain/.test(contentType)) {
     return response.text();
   } else if (

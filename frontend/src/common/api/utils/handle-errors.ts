@@ -1,14 +1,52 @@
-export const handleErrors = (response: {
-  errors: string[];
-  statusCode: number;
-  message: string;
-}) => {
-  console.log(response);
+import { ErrorResponse } from "common/model/error-response";
+
+export const handleErrors = (response: ErrorResponse) => {
   switch (response.statusCode) {
     case 400:
-      console.log(response.errors[0]);
-      break;
+      if (response.errors) {
+        return Promise.reject({
+          status: response.statusCode,
+          message: response.errors[0],
+        });
+      }
+      return Promise.reject({
+        status: response.statusCode,
+        message: response.message,
+      });
+    case 401:
+      if (response.errors) {
+        return Promise.reject({
+          status: response.statusCode,
+          message: response.errors[0],
+        });
+      }
+      return Promise.reject({
+        status: response.statusCode,
+        message: response.message,
+      });
+    case 404:
+      if (response.errors) {
+        return Promise.reject({
+          status: response.statusCode,
+          message: response.errors[0],
+        });
+      }
+      return Promise.reject({
+        status: response.statusCode,
+        message: response.message,
+      });
+    case 500:
+      if (response.errors) {
+        return Promise.reject({
+          status: response.statusCode,
+          message: response.errors[0],
+        });
+      }
+      return Promise.reject({
+        status: response.statusCode,
+        message: response.message,
+      });
     default:
-      return;
+      return response;
   }
 };

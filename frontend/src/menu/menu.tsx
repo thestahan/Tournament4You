@@ -44,9 +44,8 @@ const MenuContent = styled.div`
 const MenuItemLink = styled(NavLink)`
   width: 80%;
   text-decoration: none;
-  text-align; center;
+  text-align: center;
   font-size: 24px;
-
   text-style: none;
   color: ${colors.black};
 
@@ -59,14 +58,13 @@ const MenuItemLink = styled(NavLink)`
 `;
 
 const MenuItem = styled.div`
-color: ${colors.black};
-cursor: pointer;
-font-size: 24px;
-text-decoration: none;
-text-align; center;
-text-style: none;
-width: 80%;
-
+  color: ${colors.black};
+  cursor: pointer;
+  font-size: 24px;
+  text-decoration: none;
+  text-align: center;
+  text-style: none;
+  width: 80%;
 `;
 
 const AuthContent = styled.div`

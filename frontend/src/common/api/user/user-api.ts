@@ -1,5 +1,5 @@
 import { parseBody } from "common/api/utils/parse-body";
-import { catchError } from "common/api/utils/catch-error";
+import { handleErrors } from "common/api/utils/handle-errors";
 
 type UserRegisterPayload = {
   email: string;
@@ -27,7 +27,9 @@ const userAPI = (): UserAPI => ({
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => console.log(response));
+    })
+      .then(parseBody)
+      .then(handleErrors);
   },
 
   login: (userPayLoad: UserLoginPayload) => {
@@ -39,7 +41,7 @@ const userAPI = (): UserAPI => ({
       },
     })
       .then(parseBody)
-      .then(catchError);
+      .then(handleErrors);
   },
   logout: () => {
     localStorage.clear();
