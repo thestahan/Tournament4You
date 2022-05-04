@@ -59,6 +59,8 @@ public class Update
             team.City = request.City;
             team.Coach = request.Coach;
 
+            await _context.SaveChangesAsync(cancellationToken);
+
             return new Result();
         }
     }
