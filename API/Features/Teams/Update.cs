@@ -67,6 +67,7 @@ public class Update
     {
         public CommandValidator()
         {
+            RuleFor(c => c.Id).NotNull().GreaterThan(0);
             RuleFor(c => c.Name).NotEmpty().MinimumLength(3);
             RuleFor(c => c.City).NotEmpty();
             RuleFor(c => c.Coach).NotEmpty().MinimumLength(2);
