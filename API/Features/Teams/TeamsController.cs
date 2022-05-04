@@ -35,6 +35,19 @@ public class TeamsController : BaseApiController
         return Ok(result);
     }
 
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(Update.Result))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    public async Task<ActionResult> Update(Update.Command command, int id)
+    {
+        command.Id = id;
+
+        await Mediator.Send(command);
+
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(Delete.Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]

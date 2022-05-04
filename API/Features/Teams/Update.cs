@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace API.Features.Teams;
 
@@ -14,6 +15,7 @@ public class Update
 {
     public record Command : IRequest<Result>
     {
+        [JsonIgnore]
         public int Id { get; set; }
         public string Name { get; init; } = string.Empty;
         public string City { get; init; } = string.Empty;
