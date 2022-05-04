@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 type CreateTeamItemType = FC<{}>;
 
-const CreateTeamItemContainer = styled.div`
+const CreateTeamItemContainer = styled(NavLink)`
   width: 25%;
   margin: 0 0 0 auto;
   background-color: ${colors.darkMaroon};
@@ -16,6 +16,8 @@ const CreateTeamItemContainer = styled.div`
   transition: 0.3s ease-in-out;
   border: 1px solid ${colors.darkMaroon};
   color: ${colors.whiteSmoke};
+  text-decoration: none;
+  text-align: center;
   &:hover {
     background-color: ${colors.white};
     color: ${colors.darkMaroon};
@@ -25,21 +27,10 @@ const CreateTeamItemContainer = styled.div`
   }
 `;
 
-const CreateTeam = styled.div`
-  text-align: center;
-`;
-
-const ButtonLink = styled(NavLink)`
-  text-decoration: none;
-  color: inherit;
-`;
-
 export const CreateTeamItem: CreateTeamItemType = () => {
   return (
-    <ButtonLink to={"/teams/create"}>
-      <CreateTeamItemContainer>
-        <CreateTeam>Create Team</CreateTeam>
-      </CreateTeamItemContainer>
-    </ButtonLink>
+    <CreateTeamItemContainer to={"/teams/create"}>
+      Create Team
+    </CreateTeamItemContainer>
   );
 };

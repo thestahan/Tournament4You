@@ -7,8 +7,7 @@ import { TeamItem } from "./teams-item";
 type TeamsListType = FC<{ teams: Team[] }>;
 
 const TeamsListContainer = styled.div`
-  margin-top: 20px;
-  padding: 20px 0 20px 0;
+  padding-bottom: 20px;
   display: flex;
   flex-direction: column;
 `;
