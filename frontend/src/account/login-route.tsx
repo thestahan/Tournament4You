@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import userAPI from "common/api/user/user-api";
-import { ErrorResponse } from "common/model/error-response";
+import userAPI from "account/api/user-api";
 import * as ui from "common/ui";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -63,7 +62,7 @@ const LoginRoute: React.FC = () => {
             window.location.href = "/";
           }
         })
-        .catch((error: ErrorResponse) => setErrorMessage(error.message));
+        .catch((error) => setErrorMessage(error.message));
     },
   });
 

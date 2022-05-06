@@ -1,5 +1,5 @@
-import { parseBody } from "common/api/utils/parse-body";
-import { handleErrors } from "common/api/utils/handle-errors";
+import { parseBody } from "common/utils/parse-body";
+import { handleErrors } from "common/utils/handle-errors";
 
 type UserRegisterPayload = {
   email: string;

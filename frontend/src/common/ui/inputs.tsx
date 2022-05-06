@@ -1,8 +1,16 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { InputInterface } from "common/model";
 import { useState } from "react";
 import { colors } from "common/colors";
+export interface InputInterface {
+  label?: string;
+  value: any;
+  setValue: React.Dispatch<React.SetStateAction<any>>;
+  id?: string;
+  name?: string;
+  incorrect?: boolean;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+}
 
 export const Container = styled.div`
   display: flex;

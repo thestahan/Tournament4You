@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import userAPI from "common/api/user/user-api";
+import userAPI from "account/api/user-api";
 import { colors } from "common/colors";
 import { AuthContext } from "common/provide-auth";
 import { useContext } from "react";
@@ -92,7 +92,7 @@ const Menu = (): JSX.Element => {
               Home
             </MenuItemLink>
             <MenuItemLink to="/tournaments">Tournaments</MenuItemLink>
-            <MenuItemLink to="teams">Teams</MenuItemLink>
+            <MenuItemLink to="/teams">Teams</MenuItemLink>
             <MenuItemLink to="/archives">Archive</MenuItemLink>
             <MenuItemLink to="/contact">Contact</MenuItemLink>
             <MenuItemLink to="/about">About us</MenuItemLink>
