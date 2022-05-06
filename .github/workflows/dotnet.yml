@@ -1,8 +1,6 @@
 name: .NET build and test
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -11,7 +9,7 @@ env:
 
 jobs:
   build-and-test:
-    name: build-and-test
+    if: contains(github.head_ref, '-api-')
     runs-on: windows-latest
     
     steps:
