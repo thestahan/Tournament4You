@@ -3,7 +3,7 @@ import AboutRoute from "about/about-route";
 import LoginRoute from "account/login-route";
 import RegisterRoute from "account/register-route";
 import ArchiveRoute from "archive/archive-route";
-import { getToken } from "common/api/utils/local-storage";
+import { getToken } from "common/utils/local-storage";
 import PageContainer from "common/page-container";
 import AuthProvider from "common/provide-auth";
 import ContactRoute from "contact/contact-route";

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import userAPI from "common/api/user/user-api";
+import userAPI from "account/api/user-api";
 import { colors } from "common/colors";
 import { AuthContext } from "common/provide-auth";
 import { useContext } from "react";

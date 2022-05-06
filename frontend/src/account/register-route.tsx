@@ -1,8 +1,7 @@
-import userAPI from "common/api/user/user-api";
+import userAPI from "account/api/user-api";
 import * as ui from "common/ui";
 import styled from "@emotion/styled";
 import { useFormik } from "formik";
-import { ErrorResponse } from "common/model/error-response";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -90,7 +89,7 @@ const RegisterRoute: React.FC = () => {
             })
             .then(() => history.push("/"))
         )
-        .catch((error: ErrorResponse) => setErrorMessage(error.message));
+        .catch((error) => setErrorMessage(error.message));
     },
   });
 

@@ -1,7 +1,7 @@
-import { parseBody } from "common/api/utils/parse-body";
-import { Team } from "common/model/teams";
-import { handleErrors } from "../utils/handle-errors";
-import { getToken } from "../utils/local-storage";
+import { parseBody } from "common/utils/parse-body";
+import { Team } from "teams/teams";
+import { handleErrors } from "../../common/utils/handle-errors";
+import { getToken } from "../../common/utils/local-storage";
 
 type TeamsAPI = {
   getTeams: () => Promise<Team[]>;

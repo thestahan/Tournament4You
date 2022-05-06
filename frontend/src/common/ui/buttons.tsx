@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { NavLink } from "react-router-dom";
 import { colors } from "../colors";
 
 type Props = {

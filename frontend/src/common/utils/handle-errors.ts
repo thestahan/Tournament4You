@@ -1,4 +1,8 @@
-import { ErrorResponse } from "common/model/error-response";
+export interface ErrorResponse {
+  statusCode: number;
+  message: string;
+  errors: [string];
+}
 
 export const handleErrors = (response: ErrorResponse | any) => {
   switch (response.statusCode) {

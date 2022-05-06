@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { colors } from "common/colors";
-import { Team } from "common/model/teams";
+import { Team } from "teams/teams";
 import { NavLink } from "react-router-dom";
 
 type Props = {

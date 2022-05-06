@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { isAuthenticated } from "./api/utils/local-storage";
+import { isAuthenticated } from "./utils/local-storage";
 
 export const AuthContext = createContext<boolean>(false);
 

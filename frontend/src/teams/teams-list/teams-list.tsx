@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { colors } from "common/colors";
-import { Team } from "common/model/teams";
+import { Team } from "teams/teams";
 import * as ui from "common/ui";
 import { NavLink, useHistory } from "react-router-dom";
 import { TeamItem } from "./team-item";
@@ -43,7 +43,7 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-const TeamsHeaderList = styled.div`
+const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
@@ -53,7 +53,7 @@ const TeamsHeaderList = styled.div`
   border-radius: 5px;
 `;
 
-const TeamsHeader = styled.div<{ index: number }>`
+const Header = styled.div<{ index: number }>`
   flex-basis: 200px;
   flex-grow: 1;
   color: ${colors.white};
@@ -65,9 +65,10 @@ const TeamsHeader = styled.div<{ index: number }>`
 
 type Props = {
   teams: Team[];
+  loading: boolean;
 };
 
-const TeamsList = ({ teams }: Props): JSX.Element => {
+const TeamsList = ({ teams, loading }: Props): JSX.Element => {
   const history = useHistory();
 
   const redirect = () => {
@@ -78,35 +79,41 @@ const TeamsList = ({ teams }: Props): JSX.Element => {
 
   return (
     <Container>
-      {teams.length !== 0 ? (
+      {loading ? (
+        <>
+          {/* Do zmiany */}
+          <div>Loader</div>
+        </>
+      ) : (
         <>
           <TeamsListContainer>
-            <TeamsHeaderList>
+            <HeaderContainer>
               {headerKeys.map((key, index) => (
-                <TeamsHeader index={index} key={index}>
+                <Header index={index} key={index}>
                   {key}
-                </TeamsHeader>
+                </Header>
               ))}
-            </TeamsHeaderList>
-
-            {teams.map((team) => (
-              <TeamItem key={team.id} team={team}></TeamItem>
-            ))}
+            </HeaderContainer>
+            {teams.length !== 0 ? (
+              teams.map((team) => (
+                <TeamItem key={team.id} team={team}></TeamItem>
+              ))
+            ) : (
+              <>
+                <NoTeamContainer>There are no teams available</NoTeamContainer>
+                <ButtonLink to={"/teams/create"}>
+                  <NoTeamButtonContainer>
+                    <ui.PrimaryButton>Create team</ui.PrimaryButton>
+                  </NoTeamButtonContainer>
+                </ButtonLink>
+              </>
+            )}
             <ButtonContainer>
               <ui.PrimaryButton onClick={() => redirect()}>
                 Create Team
               </ui.PrimaryButton>
             </ButtonContainer>
           </TeamsListContainer>
-        </>
-      ) : (
-        <>
-          <NoTeamContainer>There are no teams available</NoTeamContainer>
-          <ButtonLink to={"/teams/create"}>
-            <NoTeamButtonContainer>
-              <ui.PrimaryButton>Create team</ui.PrimaryButton>
-            </NoTeamButtonContainer>
-          </ButtonLink>
         </>
       )}
     </Container>
