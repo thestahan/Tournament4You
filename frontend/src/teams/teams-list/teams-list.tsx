@@ -2,19 +2,12 @@ import styled from "@emotion/styled";
 import { colors } from "common/colors";
 import { Team } from "teams/teams";
 import * as ui from "common/ui";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { TeamItem } from "./team-item";
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
-`;
-
-const NoTeamButtonContainer = styled.div`
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
 `;
 
 const NoTeamContainer = styled.div`
@@ -24,11 +17,6 @@ const NoTeamContainer = styled.div`
   margin-top: 40px;
   color: ${colors.darkMaroon};
   font-size: 20px;
-`;
-
-const ButtonLink = styled(NavLink)`
-  text-decoration: none;
-  color: inherit;
 `;
 
 const TeamsListContainer = styled.div`
@@ -51,70 +39,60 @@ const HeaderContainer = styled.div`
   height: 50px;
   background-color: ${colors.moderatePink};
   border-radius: 5px;
+  padding: 10px;
 `;
 
-const Header = styled.div<{ index: number }>`
-  flex-basis: 200px;
-  flex-grow: 1;
+const Header = styled.div`
+  flex-basis: 150px;
   color: ${colors.white};
   font-weight: 700;
-  padding-left: ${(props) => {
-    return props.index === 0 ? "10px" : "";
-  }};
+
+  &:first-of-type {
+    flex-basis: 400px;
+  }
 `;
 
 type Props = {
   teams: Team[];
   loading: boolean;
+  onDelete: (teamID: number) => void;
 };
 
-const TeamsList = ({ teams, loading }: Props): JSX.Element => {
+const TeamsList = ({ teams, loading, onDelete }: Props): JSX.Element => {
   const history = useHistory();
 
   const redirect = () => {
     history.push("/teams/create");
   };
 
-  const headerKeys = ["Name", "City", "Coach"];
+  const headerKeys = ["Name", "City", "Coach", "Manage"];
 
   return (
     <Container>
       {loading ? (
-        <>
-          {/* Do zmiany */}
-          <div>Loader</div>
-        </>
+        <div>Loader</div>
       ) : (
-        <>
-          <TeamsListContainer>
-            <HeaderContainer>
-              {headerKeys.map((key, index) => (
-                <Header index={index} key={index}>
-                  {key}
-                </Header>
-              ))}
-            </HeaderContainer>
-            {teams.length !== 0 ? (
-              teams.map((team) => (
-                <TeamItem key={team.id} team={team}></TeamItem>
-              ))
-            ) : (
-              <>
-                <NoTeamContainer>There are no teams available</NoTeamContainer>
-                <ButtonLink to={"/teams/create"}>
-                  <NoTeamButtonContainer>
-                    <ui.PrimaryButton>Create team</ui.PrimaryButton>
-                  </NoTeamButtonContainer>
-                </ButtonLink>
-              </>
-            )}
-            <ButtonContainer>
-              <ui.PrimaryButton onClick={() => redirect()}>
-                Create Team
-              </ui.PrimaryButton>
-            </ButtonContainer>
-          </TeamsListContainer>
-        </>
+        <TeamsListContainer>
+          <HeaderContainer>
+            {headerKeys.map((key, index) => (
+              <Header key={index}>{key}</Header>
+            ))}
+          </HeaderContainer>
+
+          {teams.map((team) => (
+            <TeamItem key={team.id} team={team} onDelete={onDelete} />
+          ))}
+
+          {teams.length === 0 ? (
+            <NoTeamContainer>There are no teams</NoTeamContainer>
+          ) : null}
+
+          <ButtonContainer>
+            <ui.PrimaryButton onClick={() => redirect()}>
+              Create Team
+            </ui.PrimaryButton>
+          </ButtonContainer>
+        </TeamsListContainer>
       )}
     </Container>
   );
