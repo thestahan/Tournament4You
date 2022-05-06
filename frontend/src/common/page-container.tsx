@@ -7,6 +7,16 @@ const Container = styled.div`
   padding: 0;
   display: flex;
 `;
+
+export const PageHeader = styled.div`
+  border-bottom: 2px solid ${colors.darkMaroon};
+  color: ${colors.darkMaroon};
+  font-size: 28px;
+  font-weight: 1000;
+  margin-bottom: 20px;
+  padding-left: 25px;
+`;
+
 const Content = styled.div`
   width: 100%;
   height: 100vh;
