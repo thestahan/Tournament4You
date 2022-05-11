@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import userAPI from "common/api/user/user-api";
-import { handleErrors } from "common/api/utils/handle-errors";
+import userAPI from "account/api/user-api";
 import * as ui from "common/ui";
 import { useFormik } from "formik";
+import { useState } from "react";
 
 const Container = styled.div`
   height: 100%;
@@ -29,6 +29,7 @@ type ValidationErrors = {
 
 const LoginRoute: React.FC = () => {
   const api = userAPI();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const formik = useFormik({
     initialValues: { password: "", email: "" },
@@ -57,12 +58,11 @@ const LoginRoute: React.FC = () => {
         })
         .then((response) => {
           localStorage.setItem("token", response.token);
-
           if (response.token !== undefined) {
             window.location.href = "/";
           }
         })
-        .catch(handleErrors);
+        .catch((error) => setErrorMessage(error.message));
     },
   });
 
@@ -70,6 +70,7 @@ const LoginRoute: React.FC = () => {
     <Container>
       <form onSubmit={formik.handleSubmit}>
         <FormContainer>
+          <ui.Error message={errorMessage}></ui.Error>
           <ui.StyledInput
             id="email"
             name="email"
@@ -98,7 +99,7 @@ const LoginRoute: React.FC = () => {
             </ui.ValidationMessage>
           )}
           <ButtonContainer>
-            <ui.PrimaryButton>Log in</ui.PrimaryButton>
+            <ui.PrimaryButton type="submit">Log in</ui.PrimaryButton>
           </ButtonContainer>
         </FormContainer>
       </form>

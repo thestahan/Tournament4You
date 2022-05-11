@@ -1,7 +1,9 @@
-import userAPI from "common/api/user/user-api";
+import userAPI from "account/api/user-api";
 import * as ui from "common/ui";
 import styled from "@emotion/styled";
 import { useFormik } from "formik";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
   height: 100%;
@@ -30,6 +32,10 @@ type ValidationErrors = {
 
 const RegisterRoute: React.FC = () => {
   const api = userAPI();
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: { email: "", firstname: "", lastname: "", password: "" },
@@ -74,14 +80,16 @@ const RegisterRoute: React.FC = () => {
           firstname: firstname,
           lastname: lastname,
         })
+
         .then(() =>
           api
             .login({ email: email, password: password })
             .then((response) => {
               localStorage.setItem("token", response.token);
             })
-            .then(() => (window.location.href = "/"))
-        );
+            .then(() => history.push("/"))
+        )
+        .catch((error) => setErrorMessage(error.message));
     },
   });
 
@@ -89,6 +97,7 @@ const RegisterRoute: React.FC = () => {
     <Container>
       <form onSubmit={formik.handleSubmit}>
         <FormContainer>
+          <ui.Error message={errorMessage}></ui.Error>
           <ui.StyledInput
             placeholder="Email"
             name="email"
@@ -140,7 +149,7 @@ const RegisterRoute: React.FC = () => {
             </ui.ValidationMessage>
           )}
           <ButtonContainer>
-            <ui.PrimaryButton>Register</ui.PrimaryButton>
+            <ui.PrimaryButton type="submit">Register</ui.PrimaryButton>
           </ButtonContainer>
         </FormContainer>
       </form>

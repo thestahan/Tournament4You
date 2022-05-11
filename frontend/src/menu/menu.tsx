@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import userAPI from "common/api/user/user-api";
+import userAPI from "account/api/user-api";
 import { colors } from "common/colors";
 import { AuthContext } from "common/provide-auth";
 import { useContext } from "react";
@@ -44,9 +44,8 @@ const MenuContent = styled.div`
 const MenuItemLink = styled(NavLink)`
   width: 80%;
   text-decoration: none;
-  text-align; center;
+  text-align: center;
   font-size: 24px;
-
   text-style: none;
   color: ${colors.black};
 
@@ -59,14 +58,13 @@ const MenuItemLink = styled(NavLink)`
 `;
 
 const MenuItem = styled.div`
-color: ${colors.black};
-cursor: pointer;
-font-size: 24px;
-text-decoration: none;
-text-align; center;
-text-style: none;
-width: 80%;
-
+  color: ${colors.black};
+  cursor: pointer;
+  font-size: 24px;
+  text-decoration: none;
+  text-align: center;
+  text-style: none;
+  width: 80%;
 `;
 
 const AuthContent = styled.div`
@@ -94,7 +92,7 @@ const Menu = (): JSX.Element => {
               Home
             </MenuItemLink>
             <MenuItemLink to="/tournaments">Tournaments</MenuItemLink>
-            <MenuItemLink to="teams">Teams</MenuItemLink>
+            <MenuItemLink to="/teams">Teams</MenuItemLink>
             <MenuItemLink to="/archives">Archive</MenuItemLink>
             <MenuItemLink to="/contact">Contact</MenuItemLink>
             <MenuItemLink to="/about">About us</MenuItemLink>

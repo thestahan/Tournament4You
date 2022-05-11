@@ -1,8 +1,16 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { InputInterface } from "common/model";
 import { useState } from "react";
 import { colors } from "common/colors";
+export interface InputInterface {
+  label?: string;
+  value: any;
+  setValue: React.Dispatch<React.SetStateAction<any>>;
+  id?: string;
+  name?: string;
+  incorrect?: boolean;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -12,7 +20,6 @@ export const StyledInput = styled.input<{ incorrect?: boolean }>`
   border: none;
   border-bottom: 1px solid black;
   padding: 10px 5px 10px 0px;
-  position: relative;
   width: 200px;
   background-color: ${colors.whiteSmoke};
   font-size: 16px;

@@ -14,7 +14,7 @@ export const StyledButton = styled.button<Props>`
   text-transform: none;
   -webkit-appearance: button;
   overflow: visible;
-  border: none;
+  border-radius: 5px;
   cursor: pointer;
 
   width: fit-content;
