@@ -57,4 +57,14 @@ public class TeamsController : BaseApiController
 
         return NoContent();
     }
+
+    [HttpDelete("{teamId}/players/{playerId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(DeletePlayer.Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    public async Task<ActionResult> Delete(int teamId, int playerId)
+    {
+        await Mediator.Send(new DeletePlayer.Command { TeamId = teamId, PlayerId = playerId });
+
+        return NoContent();
+    }
 }
