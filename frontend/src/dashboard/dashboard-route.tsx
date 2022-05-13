@@ -16,14 +16,12 @@ const TextTopic = styled.h1`
 `;
 
 const Text = styled.p`
-  background-color: ${colors.darkGray};
   text-align: center;
   font-size: x-large;
   border-radius: 18px;
 `;
 
 const Image = styled.div`
-  background-color: ${colors.darkGray};
   text-align: center;
   border-radius: 18px;
 `;
