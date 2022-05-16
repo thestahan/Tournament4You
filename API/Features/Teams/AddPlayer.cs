@@ -67,7 +67,7 @@ public class AddPlayer
 
             _context.Players.Add(player);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             var position = await _context.Positions.FirstOrDefaultAsync(p => p.Id == request.PositionId, cancellationToken);
             player.Position = position!;

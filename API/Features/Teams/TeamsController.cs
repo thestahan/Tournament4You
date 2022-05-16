@@ -50,16 +50,6 @@ public class TeamsController : BaseApiController
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(Delete.Result))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
-    public async Task<ActionResult> Delete(int id)
-    {
-        await Mediator.Send(new Delete.Command { Id = id });
-
-        return NoContent();
-    }
-
     [HttpPost("{id}/players")]
     public async Task<ActionResult<Add.Result>> AddPlayer(int id, AddPlayer.Command command)
     {
@@ -69,6 +59,15 @@ public class TeamsController : BaseApiController
         return CreatedAtAction(nameof(GetById), new { id = result.CreatedPlayer }, result);
     }
 
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(Delete.Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    public async Task<ActionResult> Delete(int id)
+    {
+        await Mediator.Send(new Delete.Command { Id = id });
+
+        return NoContent();
+    }
 
     [HttpDelete("{teamId}/players/{playerId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(DeletePlayer.Result))]
