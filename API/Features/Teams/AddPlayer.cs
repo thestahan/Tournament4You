@@ -24,12 +24,9 @@ public class AddPlayer
         public int PositionId { get; set; }
     }
 
-
     public class Result
     {
-
         public PlayerDetailsDto CreatedPlayer { get; init; } = new PlayerDetailsDto();
-
     }
 
     public class Handler : IRequestHandler<Command, Result>
@@ -38,7 +35,6 @@ public class AddPlayer
         private readonly IUserAccessor _userAccessor;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
-
 
         public Handler(ApiDbContext context, IMapper mapper, UserManager<AppUser> userManager, IUserAccessor userAccessor)
         {
@@ -58,15 +54,13 @@ public class AddPlayer
 
             bool teamExists = await _context.Teams.AnyAsync(t => t.Id == request.TeamId && t.OrganizerId == user.Id, cancellationToken);
 
-            bool positionExist = await _context.Positions.AnyAsync(t => t.Id == request.PositionId, cancellationToken);
-
-            if (teamExists is false)
+            if (!teamExists)
             {
                 throw new ApiObjectNotFoundException($"No team with ID: {request.TeamId}");
             }
+            bool positionExist = await _context.Positions.AnyAsync(t => t.Id == request.PositionId, cancellationToken);
 
-
-            if (positionExist is false)
+            if (!positionExist)
             {
                 throw new ApiObjectNotFoundException($"No position with ID: {request.PositionId}");
             }
@@ -80,7 +74,6 @@ public class AddPlayer
             var playerToReturn = _mapper.Map<PlayerDetailsDto>(player);
 
             return new Result { CreatedPlayer = playerToReturn };
-
         }
     }
 

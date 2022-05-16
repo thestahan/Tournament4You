@@ -21,7 +21,5 @@ public class MappingProfiles : Profile
 
         CreateMap<AddPlayer.Command, Player>();
         CreateMap<Player, AddPlayer.Result>();
-
-        //CreateMap<Position, List.Result.Position>();
     }
 }
