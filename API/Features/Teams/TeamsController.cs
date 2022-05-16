@@ -1,4 +1,5 @@
 ﻿using API.ApiResponses;
+using API.Features.Players;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,8 @@ public class TeamsController : BaseApiController
         var result = await Mediator.Send(new GetById.Query { Id = id });
 
         return Ok(result);
-    }
+    }
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List.Result))]
     public async Task<ActionResult<List.Result>> List()
@@ -46,6 +48,15 @@ public class TeamsController : BaseApiController
         await Mediator.Send(command);
 
         return NoContent();
+    }
+
+    [HttpPost("{id}/players")]
+    public async Task<ActionResult<Add.Result>> AddPlayer(int id, AddPlayer.Command command)
+    {
+        command.TeamId = id;
+        var result = await Mediator.Send(command);
+
+        return CreatedAtAction(nameof(GetById), new { id = result.CreatedPlayer }, result);
     }
 
     [HttpDelete("{id}")]
