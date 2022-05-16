@@ -6,6 +6,7 @@ namespace API.Middleware;
 
 public class ExceptionMiddleware
 {
+    private const string _unhandledExeptionMessage = "An unhandled exception occured.";
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
     private readonly IHostEnvironment _env;
@@ -36,7 +37,7 @@ public class ExceptionMiddleware
                     response = new ApiExceptionResponse(404, ex.Message);
                     break;
                 default:
-                    _logger.LogError(error, error.Message);
+                    _logger.LogError(error, _unhandledExeptionMessage);
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     response = GetExceptionForInternalError(error, _env.IsDevelopment());
                     break;
@@ -44,13 +45,13 @@ public class ExceptionMiddleware
 
             var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
 
-            var json = JsonConvert.SerializeObject(response, Newtonsoft.Json.Formatting.None, settings);
+            string json = JsonConvert.SerializeObject(response, Formatting.None, settings);
 
             await context.Response.WriteAsync(json);
         }
     }
 
-    private ApiExceptionResponse GetExceptionForInternalError(Exception ex, bool isDevelopment) =>
+    private static ApiExceptionResponse GetExceptionForInternalError(Exception ex, bool isDevelopment) =>
         isDevelopment
             ? new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace!.ToString())
             : new ApiExceptionResponse((int)HttpStatusCode.InternalServerError);

@@ -9,7 +9,7 @@ public class UserAccessor : IUserAccessor
 
     public UserAccessor(IHttpContextAccessor contextAccessor)
     {
-        _contextAccessor = contextAccessor ?? throw new ArgumentNullException(nameof(_contextAccessor));
+        _contextAccessor = contextAccessor ?? throw new ArgumentNullException(nameof(contextAccessor));
     }
 
     public ClaimsPrincipal User => _contextAccessor.HttpContext!.User;

@@ -26,7 +26,8 @@ public class TeamsController : BaseApiController
         var result = await Mediator.Send(new GetById.Query { Id = id });
 
         return Ok(result);
-    }
+    }
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List.Result))]
     public async Task<ActionResult<List.Result>> List()
@@ -58,6 +59,7 @@ public class TeamsController : BaseApiController
 
         return NoContent();
     }
+
     [HttpPost("{id}/players")]
     public async Task<ActionResult<Add.Result>> AddPlayer(int id, AddPlayer.Command command)
     {
@@ -65,5 +67,16 @@ public class TeamsController : BaseApiController
         var result = await Mediator.Send(command);
 
         return CreatedAtAction(nameof(GetById), new { id = result.CreatedPlayer }, result);
+    }
+
+
+    [HttpDelete("{teamId}/players/{playerId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(DeletePlayer.Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    public async Task<ActionResult> Delete(int teamId, int playerId)
+    {
+        await Mediator.Send(new DeletePlayer.Command { TeamId = teamId, PlayerId = playerId });
+
+        return NoContent();
     }
 }

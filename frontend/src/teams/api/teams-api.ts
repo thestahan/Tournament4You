@@ -1,10 +1,15 @@
 import { parseBody } from "common/utils/parse-body";
-import { Team } from "teams/teams";
+import { NewTeam, Team } from "teams/teams";
+
 import { handleErrors } from "../../common/utils/handle-errors";
 import { getToken } from "../../common/utils/local-storage";
 
 type TeamsAPI = {
   getTeams: () => Promise<Team[]>;
+  getTeam: (teamID: number) => Promise<Team>;
+  addTeam: (team: NewTeam) => Promise<void>;
+  updateTeam: (team: Team) => Promise<Team>;
+  deleteTeam: (teamID: number) => Promise<void>;
 };
 
 const teamsAPI = (): TeamsAPI => ({
@@ -18,6 +23,50 @@ const teamsAPI = (): TeamsAPI => ({
       .then(parseBody)
       .then(handleErrors)
       .then((response: { teams: Team[] }) => response.teams);
+  },
+  getTeam: (teamID: number) => {
+    return fetch(`https://localhost:7094/api/teams/${teamID}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(parseBody)
+      .then(handleErrors)
+      .then((response) => response);
+  },
+  addTeam: (team: NewTeam) => {
+    return fetch("https://localhost:7094/api/teams", {
+      method: "POST",
+      body: JSON.stringify(team),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(parseBody)
+      .then(handleErrors);
+  },
+  updateTeam: (team: Team) => {
+    return fetch(`https://localhost:7094/api/teams/${team.id}`, {
+      method: "PUT",
+      body: JSON.stringify(team),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(parseBody)
+      .then(handleErrors);
+  },
+  deleteTeam: (teamID: number) => {
+    return fetch(`https://localhost:7094/api/teams/${teamID}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }).then(parseBody);
+    // .then(handleErrors);
   },
 });
 

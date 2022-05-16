@@ -1,16 +1,16 @@
 import { Route, Switch } from "react-router-dom";
-import { CreateTeam } from "./team/team-create";
-import { TeamView } from "./team/team-view";
+import TeamRoute from "./team/team-route";
 import { TeamsListRoute } from "./teams-list/teams-list-route";
+import TeamAddRoute from "./team-add/team-add-route";
 
 export const TeamsRouter = () => {
   return (
     <Switch>
       <Route path={"/teams/create"}>
-        <CreateTeam />
+        <TeamAddRoute />
       </Route>
       <Route path={"/teams/:teamId"}>
-        <TeamView />
+        <TeamRoute />
       </Route>
       <Route path={"/teams"}>
         <TeamsListRoute />

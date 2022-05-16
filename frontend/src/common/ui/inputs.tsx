@@ -20,8 +20,7 @@ export const StyledInput = styled.input<{ incorrect?: boolean }>`
   border: none;
   border-bottom: 1px solid black;
   padding: 10px 5px 10px 0px;
-  width: 200px;
-  background-color: ${colors.whiteSmoke};
+  width: 100%;
   font-size: 16px;
 
   &:focus {
@@ -42,6 +41,52 @@ export const Icon = styled.i`
   margin-top: 10px;
   cursor: pointer;
 `;
+
+export const InputLabel = styled.label`
+  color: ${colors.black};
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+`;
+
+export const InputHint = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  color: ${colors.black};
+  opacity: 0.7;
+`;
+
+export const InputLabeled: React.FC<{
+  label?: string;
+  hint?: string;
+  className?: string;
+}> = ({ label, hint, children, className }) => (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "stretch",
+      marginBottom: "10px",
+    }}
+    className={className}
+  >
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      {label ? (
+        <InputLabel style={{ marginBottom: "0" }}>{label}</InputLabel>
+      ) : null}
+      {hint ? <InputHint>{hint}</InputHint> : null}
+    </div>
+    {children}
+  </div>
+);
 
 export const PasswordInput: React.FC<InputInterface> = ({
   label,
