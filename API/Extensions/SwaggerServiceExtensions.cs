@@ -8,12 +8,6 @@ public static class SwaggerServiceExtensions
     {
         services.AddSwaggerGen(config =>
         {
-            //config.SwaggerDoc("v1", new OpenApiInfo
-            //{
-            //    Title = "DrinkingPassion API",
-            //    Version = "v1"
-            //});
-
             var securitySchema = new OpenApiSecurityScheme
             {
                 Description = "JWT Auth Bearer Scheme",
