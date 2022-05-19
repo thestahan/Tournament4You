@@ -13,7 +13,7 @@ namespace API.Extensions
         {
             var builder = services
                 .AddIdentityCore<AppUser>()
-                .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider); ;
+                .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
 
             builder = new IdentityBuilder(builder.UserType, builder.Services);
             builder.AddEntityFrameworkStores<ApiDbContext>();

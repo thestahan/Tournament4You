@@ -1,4 +1,5 @@
 ﻿using API.Domain;
+using API.Features.Players;
 using AutoMapper;
 
 namespace API.Features.Teams;
@@ -17,5 +18,8 @@ public class MappingProfiles : Profile
             .ForMember(
                 dest => dest.Position,
                 opt => opt.MapFrom(src => src.Position.Name));
+
+        CreateMap<AddPlayer.Command, Player>();
+        CreateMap<Player, AddPlayer.Result>();
     }
 }
