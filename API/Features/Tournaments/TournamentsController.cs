@@ -18,8 +18,12 @@ public class TournamentsController : BaseApiController
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetById(int id)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetById.Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    public async Task<ActionResult<GetById.Result>> GetById(int id)
     {
-        throw new NotImplementedException();
+        var result = await Mediator.Send(new GetById.Query { Id = id });
+
+        return Ok(result);
     }
 }

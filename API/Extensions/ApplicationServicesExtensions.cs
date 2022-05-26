@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace API.Extensions;
 
@@ -21,6 +22,9 @@ public static class ApplicationServicesExtensions
         {
             opt.Filters.Add<FluentValidationExceptionFilter>();
             opt.Filters.Add<BadRequestExceptionFilter>();
+        }).AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
 
         services.AddEndpointsApiExplorer();
