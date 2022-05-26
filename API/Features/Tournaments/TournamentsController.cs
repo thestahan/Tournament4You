@@ -22,4 +22,14 @@ public class TournamentsController : BaseApiController
     {
         throw new NotImplementedException();
     }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(Delete.Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    public async Task<ActionResult> Delete(int id)
+    {
+        await Mediator.Send(new Delete.Command { Id = id });
+
+        return NoContent();
+    }
 }
