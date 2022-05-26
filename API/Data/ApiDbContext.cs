@@ -33,6 +33,15 @@ namespace API.Data
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<Tournament>()
+                .HasMany(t => t.Teams)
+                .WithMany(t => t.Tournaments);
+
+            builder.Entity<Tournament>()
+                .HasOne(t => t.WinnerTeam)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.ApplyConfiguration(new PositionsConfig());
         }
     }
