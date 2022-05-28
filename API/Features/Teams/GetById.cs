@@ -1,7 +1,7 @@
 ﻿using API.ApiResponses;
 using API.Data;
 using API.Domain;
-using API.DTOs;
+using API.Dtos.Players;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
