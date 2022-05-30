@@ -1,4 +1,6 @@
 ﻿using API.Domain;
+using API.Dtos.Matches;
+using API.Dtos.Teams;
 using AutoMapper;
 
 namespace API.Features.Tournaments;
@@ -12,7 +14,7 @@ public class MappingProfiles : Profile
         CreateMap<Team, Add.Result.Team>();
 
         CreateMap<Tournament, GetById.Result>();
-        CreateMap<Match, GetById.Result.MatchDto>();
-        CreateMap<Team, GetById.Result.TeamDto>();
+        CreateMap<Match, MatchDto>();
+        CreateMap<Team, TeamSimpleDto>();
     }
 }

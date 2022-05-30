@@ -66,7 +66,18 @@ public class Start
                 throw new ApiObjectNotFoundException(_tournamentAlreadyStartedException);
             }
 
-            throw new NotImplementedException();
+            var startResult = tournament.Start();
+
+            if (startResult.Status == Domain.Common.Status.Fail)
+            {
+                throw new BadHttpRequestException(startResult.FailMessage);
+            }
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            var result = _mapper.Map<Result>(tournament);
+
+            return result;
         }
     }
 }
