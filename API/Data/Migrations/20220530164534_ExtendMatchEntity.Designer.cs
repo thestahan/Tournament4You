@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220530164534_ExtendMatchEntity")]
+    partial class ExtendMatchEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,13 +117,13 @@ namespace API.Data.Migrations
                     b.Property<int>("RoundNumber")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Team1Id")
+                    b.Property<int>("Team1Id")
                         .HasColumnType("integer");
 
                     b.Property<int?>("Team1Score")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Team2Id")
+                    b.Property<int>("Team2Id")
                         .HasColumnType("integer");
 
                     b.Property<int?>("Team2Score")

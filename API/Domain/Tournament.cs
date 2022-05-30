@@ -44,10 +44,9 @@ public class Tournament
 
         int roundsCount = NumberHelpers.GetTheAmountOfTimesIntCanBeDividedByN(Teams.Count, 2);
 
-        for (int i = 0; i < roundsCount; i++)
-        {
+        GenerateMatches(roundsCount);
 
-        }
+        HasStarted = true;
 
         return new CommandResult(Status.Success);
     }
@@ -57,5 +56,34 @@ public class Tournament
         var rng = new Random();
 
         Teams = Teams.OrderBy(t => rng.Next()).ToList();
+    }
+
+    private void GenerateMatches(int roundsCount)
+    {
+        int matchesInRound = Teams.Count / 2;
+
+        for (int i = 0; i < roundsCount; i++)
+        {
+            for (int j = 0; j < matchesInRound; j++)
+            {
+                var match = new Match
+                {
+                    Index = j,
+                    RoundNumber = i + 1
+                };
+
+                if (i == 0)
+                {
+                    match.Team1 = Teams.ElementAt(j * 2);
+                    match.Team1Id = Teams.ElementAt(j * 2).Id;
+                    match.Team2 = Teams.ElementAt(j * 2 + 1);
+                    match.Team2Id = Teams.ElementAt(j * 2 + 1).Id;
+                }
+
+                Matches.Add(match);
+            }
+
+            matchesInRound /= 2;
+        }
     }
 }

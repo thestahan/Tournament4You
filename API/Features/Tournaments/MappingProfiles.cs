@@ -16,5 +16,7 @@ public class MappingProfiles : Profile
         CreateMap<Tournament, GetById.Result>();
         CreateMap<Match, MatchDto>();
         CreateMap<Team, TeamSimpleDto>();
+
+        CreateMap<Tournament, Start.Result>();
     }
 }

@@ -16,7 +16,7 @@ public class Start
 {
     public record Command : IRequest<Result>
     {
-        public int TournamentId { get; set; }
+        public int Id { get; set; }
     }
 
     public record Result
@@ -58,7 +58,8 @@ public class Start
             var user = _userAccessor.User;
             var userAccount = await _userManager.FindByEmailAsync(user.FindFirstValue(ClaimTypes.Email));
             var tournament = await _context.Tournaments
-                .Where(t => t.Id == request.TournamentId && t.OrganizerId == userAccount.Id)
+                .Include(t => t.Teams)
+                .Where(t => t.Id == request.Id && t.OrganizerId == userAccount.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (tournament is null)

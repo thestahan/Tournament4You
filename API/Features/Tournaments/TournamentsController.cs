@@ -36,4 +36,15 @@ public class TournamentsController : BaseApiController
 
         return NoContent();
     }
+
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Start.Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
+    public async Task<ActionResult<Start.Result>> Start(int id)
+    {
+        var startedTournament = await Mediator.Send(new Start.Command { Id = id });
+
+        return startedTournament;
+    }
 }
