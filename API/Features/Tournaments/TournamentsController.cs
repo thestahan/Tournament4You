@@ -37,7 +37,7 @@ public class TournamentsController : BaseApiController
         return NoContent();
     }
 
-    [HttpPatch("{id}")]
+    [HttpPatch("{id}/start")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Start.Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]

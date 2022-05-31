@@ -1,7 +1,7 @@
 ﻿using API.ApiResponses;
 using API.Data;
 using API.Domain;
-using API.Dtos.Matches;
+using API.Dtos.Rounds;
 using API.Dtos.Teams;
 using API.Interfaces;
 using AutoMapper;
@@ -29,7 +29,7 @@ public class Start
         public bool HasFinished { get; set; }
         public TeamSimpleDto? WinnerTeam { get; set; }
         public ICollection<TeamSimpleDto> Teams { get; set; } = new List<TeamSimpleDto>();
-        public ICollection<MatchDto> Matches { get; set; } = new List<MatchDto>();
+        public ICollection<RoundDto> Rounds { get; set; } = new List<RoundDto>();
     }
 
     public class Handler : IRequestHandler<Command, Result>

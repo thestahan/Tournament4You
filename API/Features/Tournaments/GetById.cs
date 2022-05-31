@@ -1,7 +1,7 @@
 ﻿using API.ApiResponses;
 using API.Data;
 using API.Domain;
-using API.Dtos.Matches;
+using API.Dtos.Rounds;
 using API.Dtos.Teams;
 using API.Interfaces;
 using AutoMapper;
@@ -24,13 +24,13 @@ public class GetById
     {
         public int Id { get; init; }
         public string Name { get; init; } = default!;
-        public DateTime StartDate { get; set; } = DateTime.UtcNow;
+        public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool HasStarted { get; set; }
         public bool HasFinished { get; set; }
         public TeamSimpleDto? WinnerTeam { get; set; }
         public ICollection<TeamSimpleDto> Teams { get; set; } = new List<TeamSimpleDto>();
-        public ICollection<MatchDto> Matches { get; set; } = new List<MatchDto>();
+        public ICollection<RoundDto> Rounds { get; set; } = new List<RoundDto>();
     }
 
     public class Handler : IRequestHandler<Query, Result>
@@ -55,7 +55,8 @@ public class GetById
 
             var tournament = await _context.Tournaments
                 .Include(t => t.Teams)
-                .Include(t => t.Matches)
+                .Include(t => t.Rounds)
+                    .ThenInclude(r => r.Matches)
                 .Where(t => t.Id == request.Id && t.OrganizerId == userAccount.Id)
                 .ProjectTo<Result>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken);
@@ -64,6 +65,8 @@ public class GetById
             {
                 throw new ApiObjectNotFoundException("Tournament of given id was not found");
             }
+
+            //return new Result();
 
             return tournament;
         }

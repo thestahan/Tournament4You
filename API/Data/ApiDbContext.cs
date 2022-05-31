@@ -16,6 +16,7 @@ namespace API.Data
         public DbSet<Position> Positions => Set<Position>();
         public DbSet<Team> Teams => Set<Team>();
         public DbSet<Tournament> Tournaments => Set<Tournament>();
+        public DbSet<Round> Rounds => Set<Round>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

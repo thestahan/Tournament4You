@@ -5,6 +5,8 @@ namespace API.Domain;
 
 public class Tournament
 {
+    private static int _maxRounds = 4;
+
     private static readonly List<int> _supportedTeamsCounts = new()
     {
         2, 4, 8, 16, 32
@@ -20,7 +22,7 @@ public class Tournament
     public AppUser Organizer { get; set; } = default!;
     public Team? WinnerTeam { get; set; }
     public ICollection<Team> Teams { get; set; } = new List<Team>();
-    public ICollection<Match> Matches { get; set; } = new List<Match>();
+    public ICollection<Round> Rounds { get; set; } = new List<Round>();
 
     public CommandResult Start()
     {
@@ -44,9 +46,10 @@ public class Tournament
 
         int roundsCount = NumberHelpers.GetTheAmountOfTimesIntCanBeDividedByN(Teams.Count, 2);
 
-        GenerateMatches(roundsCount);
+        GenerateRoundsWithMatches(roundsCount);
 
         HasStarted = true;
+        StartDate = DateTime.UtcNow;
 
         return new CommandResult(Status.Success);
     }
@@ -58,18 +61,23 @@ public class Tournament
         Teams = Teams.OrderBy(t => rng.Next()).ToList();
     }
 
-    private void GenerateMatches(int roundsCount)
+    private void GenerateRoundsWithMatches(int roundsCount)
     {
         int matchesInRound = Teams.Count / 2;
 
         for (int i = 0; i < roundsCount; i++)
         {
+            var round = new Round
+            {
+                Number = i + 1,
+                Type = (RoundType)(i + (_maxRounds - roundsCount))
+            };
+
             for (int j = 0; j < matchesInRound; j++)
             {
                 var match = new Match
                 {
-                    Index = j,
-                    RoundNumber = i + 1
+                    Index = j
                 };
 
                 if (i == 0)
@@ -78,12 +86,15 @@ public class Tournament
                     match.Team1Id = Teams.ElementAt(j * 2).Id;
                     match.Team2 = Teams.ElementAt(j * 2 + 1);
                     match.Team2Id = Teams.ElementAt(j * 2 + 1).Id;
+                    match.AreTeamsDrawn = true;
                 }
 
-                Matches.Add(match);
+                round.Matches.Add(match);
             }
 
             matchesInRound /= 2;
+
+            Rounds.Add(round);
         }
     }
 }
