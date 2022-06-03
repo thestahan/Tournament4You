@@ -30,7 +30,6 @@ const TeamItemContainer = styled.div`
 
 const TeamDetails = styled.div`
   flex-basis: 150px;
-  flex-grow: 1;
 
   &:first-of-type {
     flex-basis: 400px;

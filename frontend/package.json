@@ -9,6 +9,7 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
+    "@types/lodash": "^4.14.182",
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
@@ -17,6 +18,7 @@
     "formik": "^2.2.9",
     "google-map-react": "^2.1.10",
     "google-maps-react": "^2.0.6",
+    "lodash": "^4.17.21",
     "primeicons": "^5.0.0",
     "primereact": "^7.2.1",
     "react": "^17.0.2",
@@ -24,6 +26,7 @@
     "react-responsive": "^9.0.0-beta.6",
     "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.0",
+    "react-select": "^5.3.2",
     "typescript": "^4.6.3",
     "web-vitals": "^2.1.4"
   },

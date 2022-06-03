@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { isAuthenticated } from "common/utils/local-storage";
 import { colors } from "common/colors";
 import { images } from "common";
+import { PageHeader } from "common/page-container";
 
 const Container = styled.div`
   height: 100%;
@@ -33,7 +34,7 @@ const DashboardRoute = () => {
     <Container>
       {authenticated ? (
         <TextContent>
-          <TextTopic>THE TOURNAMENT4YOU APPLICATION</TextTopic>
+          <PageHeader>Dashboard</PageHeader>
           <br></br>
           <Text>
             <br></br>
