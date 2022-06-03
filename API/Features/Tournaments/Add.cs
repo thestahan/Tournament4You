@@ -35,12 +35,12 @@ public class Add
 
     public class Handler : IRequestHandler<Command, Result>
     {
-        private const string _teamNotFoundException = "At least one team of given ids was not found.";
-
         private readonly UserManager<AppUser> _userManager;
         private readonly ApiDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
+
+        private const string _teamNotFoundException = "At least one team of given ids was not found.";
 
         public Handler(IMapper mapper,
                        ApiDbContext context,

@@ -1,4 +1,5 @@
 ﻿using API.Domain;
+using API.Dtos.Players;
 using API.Features.Players;
 using AutoMapper;
 
@@ -14,7 +15,7 @@ public class MappingProfiles : Profile
         CreateMap<Team, GetById.Result>();
 
         CreateMap<Team, List.Result.Team>();
-        CreateMap<Player, DTOs.PlayerDetailsDto>()
+        CreateMap<Player, PlayerDetailsDto>()
             .ForMember(
                 dest => dest.Position,
                 opt => opt.MapFrom(src => src.Position.Name));

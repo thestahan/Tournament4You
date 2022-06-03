@@ -1,4 +1,4 @@
-﻿namespace API.DTOs;
+﻿namespace API.Dtos.Players;
 
 public record PlayerDetailsDto
 {

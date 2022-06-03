@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220530164534_ExtendMatchEntity")]
+    partial class ExtendMatchEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,27 +111,25 @@ namespace API.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("AreTeamsDrawn")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("Index")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RoundId")
+                    b.Property<int>("RoundNumber")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Team1Id")
-                        .IsRequired()
+                    b.Property<int>("Team1Id")
                         .HasColumnType("integer");
 
                     b.Property<int?>("Team1Score")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Team2Id")
-                        .IsRequired()
+                    b.Property<int>("Team2Id")
                         .HasColumnType("integer");
 
                     b.Property<int?>("Team2Score")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TournamentId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("WinnerTeamId")
@@ -137,11 +137,11 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoundId");
-
                     b.HasIndex("Team1Id");
 
                     b.HasIndex("Team2Id");
+
+                    b.HasIndex("TournamentId");
 
                     b.HasIndex("WinnerTeamId");
 
@@ -230,30 +230,6 @@ namespace API.Data.Migrations
                             Abbreviation = "L",
                             Name = "Libero"
                         });
-                });
-
-            modelBuilder.Entity("API.Domain.Round", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Number")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TournamentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TournamentId");
-
-                    b.ToTable("Rounds");
                 });
 
             modelBuilder.Entity("API.Domain.Team", b =>
@@ -473,12 +449,6 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Domain.Match", b =>
                 {
-                    b.HasOne("API.Domain.Round", "Round")
-                        .WithMany("Matches")
-                        .HasForeignKey("RoundId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Domain.Team", "Team1")
                         .WithMany()
                         .HasForeignKey("Team1Id")
@@ -491,15 +461,21 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("API.Domain.Tournament", "Tournament")
+                        .WithMany("Matches")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API.Domain.Team", "WinnerTeam")
                         .WithMany()
                         .HasForeignKey("WinnerTeamId");
 
-                    b.Navigation("Round");
-
                     b.Navigation("Team1");
 
                     b.Navigation("Team2");
+
+                    b.Navigation("Tournament");
 
                     b.Navigation("WinnerTeam");
                 });
@@ -521,17 +497,6 @@ namespace API.Data.Migrations
                     b.Navigation("Position");
 
                     b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("API.Domain.Round", b =>
-                {
-                    b.HasOne("API.Domain.Tournament", "Tournament")
-                        .WithMany("Rounds")
-                        .HasForeignKey("TournamentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tournament");
                 });
 
             modelBuilder.Entity("API.Domain.Team", b =>
@@ -639,11 +604,6 @@ namespace API.Data.Migrations
                     b.Navigation("Players");
                 });
 
-            modelBuilder.Entity("API.Domain.Round", b =>
-                {
-                    b.Navigation("Matches");
-                });
-
             modelBuilder.Entity("API.Domain.Team", b =>
                 {
                     b.Navigation("Players");
@@ -651,7 +611,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Domain.Tournament", b =>
                 {
-                    b.Navigation("Rounds");
+                    b.Navigation("Matches");
                 });
 #pragma warning restore 612, 618
         }
