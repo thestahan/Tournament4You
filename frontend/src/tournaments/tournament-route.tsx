@@ -1,5 +1,10 @@
+import { PageHeader } from "common/page-container";
 const TournamentRoute = () => {
-  return <>Tournaments</>;
+  return (
+    <>
+      <PageHeader>Tournaments</PageHeader>
+    </>
+  );
 };
 
 export default TournamentRoute;

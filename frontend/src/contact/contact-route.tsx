@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { colors } from "common/colors";
 import { images } from "common";
+import { PageHeader } from "common/page-container";
 
 const Container = styled.div`
   height: 100%;
@@ -9,9 +10,7 @@ const Container = styled.div`
 
 const ContactStatement = styled.div`
   width: 100%;
-  
 `;
-
 
 const DisplayMap = styled.div`
   display: flex;
@@ -31,7 +30,6 @@ const Text = styled.p`
   text-align: center;
   font-size: x-large;
   margin-top: 50px;
-  
 `;
 
 const Image = styled.div`
@@ -41,7 +39,7 @@ const Image = styled.div`
 const ContactRoute = () => {
   return (
     <>
-      <TextTopic>Contact page</TextTopic>
+      <PageHeader>Contact</PageHeader>
       <Container>
         <ContactStatement>
           <Text>
