@@ -1,5 +1,11 @@
+import { PageHeader } from "common/page-container";
+
 const AboutRoute = () => {
-  return <>About</>;
+  return (
+    <>
+      <PageHeader>About us</PageHeader>
+    </>
+  );
 };
 
 export default AboutRoute;

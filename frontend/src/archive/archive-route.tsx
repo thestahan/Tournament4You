@@ -1,5 +1,11 @@
+import { PageHeader } from "common/page-container";
+
 const ArchiveRoute = () => {
-  return <>Archive</>;
+  return (
+    <>
+      <PageHeader>Archive</PageHeader>
+    </>
+  );
 };
 
 export default ArchiveRoute;
