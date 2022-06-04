@@ -27,6 +27,15 @@ public class TournamentsController : BaseApiController
         return Ok(result);
     }
 
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List.Result))]
+    public async Task<ActionResult<List.Result>> List()
+    {
+        var result = await Mediator.Send(new List.Query());
+
+        return Ok(result);
+    }
+
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(Delete.Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
