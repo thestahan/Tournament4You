@@ -8,4 +8,4 @@ export type Tournament = {
   teams: { id: Team["id"]; name: Team["name"] };
 };
 
-export type NewTournament = { name: string; teams: Team["id"][] };
+export type NewTournament = { name: string; teamsIds: Team["id"][] };

@@ -1,3 +1,5 @@
+import { Player } from "players/players";
+
 export type Team = {
   name: string;
   city: string;
@@ -7,10 +9,3 @@ export type Team = {
 };
 
 export type NewTeam = { name: string; city: string; coach: string };
-
-export type Player = {
-  name: string;
-  id: string;
-  surname: string;
-  position: string;
-};

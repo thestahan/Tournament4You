@@ -20,7 +20,7 @@ const FormContent = styled.div`
 
 type ValidationErrors = {
   name?: string;
-  teams?: string;
+  teamsIds?: string;
 };
 
 type Props = {
@@ -35,16 +35,16 @@ const TournamentForm = ({
   const [values, setValues] = useState<any>([]);
 
   const formik = useFormik({
-    initialValues: { name: "", teams: values },
-    validate: ({ name, teams }) => {
+    initialValues: { name: "", teamsIds: values },
+    validate: ({ name, teamsIds }) => {
       const errors: ValidationErrors = {};
 
       if (!name) {
         errors.name = "Name is required";
       }
 
-      if (!teams) {
-        errors.teams = "Teams are required";
+      if (!teamsIds) {
+        errors.teamsIds = "Teams are required";
       }
 
       return errors;
@@ -52,7 +52,7 @@ const TournamentForm = ({
     onSubmit: (v) => {
       const tournament = {
         name: v.name,
-        teams: values,
+        teamsIds: values,
       };
 
       console.log(tournament);
