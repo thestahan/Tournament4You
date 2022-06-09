@@ -38,13 +38,13 @@ export const PrimaryButton = styled(StyledButton)`
   }
 `;
 
-export const SecondaryButton = styled(StyledButton)`
+export const SecondaryButton = styled(StyledButton)<{
+  animate?: boolean;
+  width?: string;
+}>`
   transition: 0.3s ease-in-out;
   border: 1px solid ${colors.dimGray};
   background-color: transparent;
   color: ${colors.dimGray};
-  &:hover {
-    transform: scale(1.03);
-    transition: 0.3s ease-in-out;
-  }
+  width: ${(props) => (props.width ? props.width : "")};
 `;

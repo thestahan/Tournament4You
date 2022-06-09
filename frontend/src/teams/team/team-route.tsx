@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { colors } from "common/colors";
 import { PageHeader } from "common/page-container";
+import { PlayersList } from "players/players-list/players-list";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import teamsAPI from "teams/api/teams-api";
@@ -12,12 +13,18 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Content = styled.div`
+const ContentContainer = styled.div`
+  display: flex;
+  column-gap: 20px;
+`;
+
+const ContentCard = styled.div<{ fullWidth?: boolean }>`
   background-color: ${colors.white};
   border-radius: 15px;
   box-shadow: 0px 0px 28px -15px rgba(0, 0, 0, 1);
   padding: 25px;
-  width: fit-content;
+  width: ${(props) => (props.fullWidth ? "100%" : "fit-content")};
+  height: 300px;
 `;
 
 type Params = {
@@ -42,9 +49,14 @@ const TeamRoute = () => {
   return team ? (
     <Container>
       <PageHeader>Manage Team</PageHeader>
-      <Content>
-        <TeamForm onFormSubmit={onFormSubmit} team={team} />
-      </Content>
+      <ContentContainer>
+        <ContentCard>
+          <TeamForm onFormSubmit={onFormSubmit} team={team} />
+        </ContentCard>
+        <ContentCard fullWidth={true}>
+          <PlayersList team={team} onFormSubmit={onFormSubmit} />
+        </ContentCard>
+      </ContentContainer>
     </Container>
   ) : null;
 };

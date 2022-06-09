@@ -10,12 +10,13 @@ const Container = styled.div`
   height: 100%;
   width: 100%;
 `;
-const Content = styled.div`
+const Content = styled.div<{ fullWidth?: boolean }>`
   background-color: ${colors.white};
   border-radius: 15px;
   box-shadow: 0px 0px 28px -15px rgba(0, 0, 0, 1);
   padding: 25px;
-  width: fit-content;
+  width: ${(props) => (props.fullWidth ? "100%" : "fit-content")};
+  height: 300px;
 `;
 
 const TeamAddRoute = () => {
