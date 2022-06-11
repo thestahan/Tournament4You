@@ -71,12 +71,10 @@ public class SubmitScore
             }
 
             var currentRound = tournament.Rounds
-                .Where(r => r.Matches.Any(m => m.Id == request.MatchId))
-                .First();
+                .First(r => r.Matches.Any(m => m.Id == request.MatchId));
 
             var currentMatch = currentRound.Matches
-                .Where(m => m.Id == request.MatchId)
-                .First();
+                .First(m => m.Id == request.MatchId);
 
             if (currentMatch.WinnerTeam is not null)
             {
@@ -96,12 +94,10 @@ public class SubmitScore
                 bool isScoreForNextTeam1 = currentMatch.Index % 2 == 0;
 
                 var nextRound = tournament.Rounds
-                    .Where(r => r.Number == (currentRound.Number + 1))
-                    .First();
+                    .First(r => r.Number == (currentRound.Number + 1));
 
                 var nextMatch = nextRound.Matches
-                    .Where(m => m.Index == nextMatchIndex)
-                    .First();
+                    .First(m => m.Index == nextMatchIndex);
 
                 if (isScoreForNextTeam1)
                 {
