@@ -5,7 +5,6 @@ using API.Dtos.Rounds;
 using API.Dtos.Teams;
 using API.Interfaces;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +57,6 @@ public class GetById
                 .Include(t => t.Rounds)
                     .ThenInclude(r => r.Matches)
                 .Where(t => t.Id == request.Id && t.OrganizerId == userAccount.Id)
-                .ProjectTo<Result>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (tournament is null)
@@ -66,9 +64,7 @@ public class GetById
                 throw new ApiObjectNotFoundException("Tournament of given id was not found");
             }
 
-            //return new Result();
-
-            return tournament;
+            return _mapper.Map<Result>(tournament);
         }
     }
 }
