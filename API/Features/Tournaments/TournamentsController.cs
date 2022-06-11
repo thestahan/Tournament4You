@@ -56,4 +56,18 @@ public class TournamentsController : BaseApiController
 
         return startedTournament;
     }
+
+    [HttpPatch("{id}/matches/{matchId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(SubmitScore.Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
+    public async Task<ActionResult> SubmitScore(SubmitScore.Command command, int id, int matchId)
+    {
+        command.TournamentId = id;
+        command.MatchId = matchId;
+
+        await Mediator.Send(command);
+
+        return NoContent();
+    }
 }
