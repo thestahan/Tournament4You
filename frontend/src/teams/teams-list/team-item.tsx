@@ -56,7 +56,7 @@ export const TeamItem = ({ team, onDelete }: Props): JSX.Element => (
         >
           Delete
         </button>
-      </TeamDetails>{" "}
+      </TeamDetails>
     </TeamItemContainer>
   </TeamItemLink>
 );

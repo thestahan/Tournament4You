@@ -1,12 +1,10 @@
 import styled from "@emotion/styled";
 import Select from "react-select";
-
-// import Option from "react-select/dist/declarations/src/components/Option";
 import { useFormik } from "formik";
 import { ui } from "common/index";
 import { NewTournament } from "./tournaments";
 import { Team } from "teams/teams";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { uniqBy } from "lodash";
 
 const FormContainer = styled.div`
@@ -55,7 +53,6 @@ const TournamentForm = ({
         teamsIds: values,
       };
 
-      console.log(tournament);
       onFormSubmit(tournament);
     },
   });
@@ -68,14 +65,12 @@ const TournamentForm = ({
 
   const onChange = (e: any) => {
     const essa = uniqBy([...e], "value");
-    console.log(essa);
 
     let ids: any = [];
     essa.forEach((e) => {
       ids.push(e.value);
     });
 
-    console.log("ids", ids);
     setValues(ids);
   };
 

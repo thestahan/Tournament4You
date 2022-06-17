@@ -5,12 +5,25 @@ import { handleErrors } from "../../common/utils/handle-errors";
 import { getToken } from "../../common/utils/local-storage";
 
 type TournamentAPI = {
+  getTournaments: () => Promise<Tournament[]>;
   getTournament: (tournamentId: number) => Promise<Tournament>;
   addTournament: (newTournament: NewTournament) => Promise<void>;
   deleteTournament: (tournamentId: number) => Promise<void>;
 };
 
 const tournamentAPI = (): TournamentAPI => ({
+  getTournaments: () => {
+    return fetch(`https://localhost:7094/api/tournaments`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(parseBody)
+      .then(handleErrors)
+      .then((response) => response.tournaments);
+  },
+
   getTournament: (tournamentId: number) => {
     return fetch(`https://localhost:7094/api/tournaments/${tournamentId}`, {
       method: "GET",
