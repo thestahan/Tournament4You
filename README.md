@@ -17,3 +17,11 @@ Steps to run API:
    - `dotnet build`
    - `dotnet run --project API`
 3. Swagger doc is available at `localhost_address/swagger`
+
+
+## Project details
+
+### Workflow
+
+There is a yaml file which describes the workflow for the API solution. The solution is built, tests are run, and the sonarcloud runs the quality gate check too.
+[The sonarcloud project is here.](https://sonarcloud.io/project/overview?id=thestahan_Tournament4You)
