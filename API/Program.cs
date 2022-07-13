@@ -1,6 +1,6 @@
+using API.Behaviors.Middleware;
 using API.Data;
 using API.Extensions;
-using API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

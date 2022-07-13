@@ -4,7 +4,7 @@ public class CommandResult
 {
     public Status Status { get; private set; }
 
-    public string FailMessage { get; private set; } = string.Empty;
+    public string FailMessage { get; private set; }
 
     public CommandResult(Status status, string failMessage = "")
     {

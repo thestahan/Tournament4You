@@ -43,7 +43,7 @@ public class Delete
 
             if (tournament is null)
             {
-                throw new ApiObjectNotFoundException($"Tournament of given Id has not beed found.");
+                throw new ApiObjectNotFoundException($"Tournament of given Id has not been found.");
             }
 
             _context.Tournaments.Remove(tournament);

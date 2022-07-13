@@ -1,5 +1,4 @@
 ﻿using API.ApiResponses;
-using API.Features.Players;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

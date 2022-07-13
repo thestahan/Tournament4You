@@ -17,7 +17,7 @@ namespace API.Data.Migrations
                 table: "Tournaments",
                 type: "text",
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -27,7 +27,7 @@ namespace API.Data.Migrations
                 table: "Teams",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_OrganizerId",
