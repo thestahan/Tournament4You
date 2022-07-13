@@ -19,7 +19,7 @@ public class ApiResponse
             400 => "A bad request have been sent.",
             401 => "Authorization have failed.",
             404 => "The resource haven't been found.",
-            500 => "A bad thing have happend.",
+            500 => "A bad thing have happened.",
             _ => null
         };
     }

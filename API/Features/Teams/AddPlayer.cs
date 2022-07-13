@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 
-namespace API.Features.Players;
+namespace API.Features.Teams;
 
 public class AddPlayer
 {

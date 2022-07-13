@@ -2,11 +2,11 @@
 using Newtonsoft.Json;
 using System.Net;
 
-namespace API.Middleware;
+namespace API.Behaviors.Middleware;
 
 public class ExceptionMiddleware
 {
-    private const string _unhandledExeptionMessage = "An unhandled exception occured.";
+    private const string _unhandledExeptionMessage = "An unhandled exception occurred.";
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
     private readonly IHostEnvironment _env;

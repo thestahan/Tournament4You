@@ -13,7 +13,7 @@ public class Round
 public enum RoundType
 {
     EighthFinals,
-    Quarterfinals,
-    Semifinals,
+    QuarterFinals,
+    SemiFinals,
     Finals
 }

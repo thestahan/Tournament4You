@@ -97,7 +97,7 @@ public class Update
     [Test]
     public void ThrowsNotFoundException_When_TeamIsNotFound()
     {
-        // Arange
+        // Arrange
         var options = new DbContextOptionsBuilder<ApiDbContext>()
             .UseInMemoryDatabase(databaseName: "DB")
             .Options;
@@ -114,7 +114,7 @@ public class Update
     [Test]
     public async Task ReturnsNewResult_When_UserIsUpdated()
     {
-        // Arange
+        // Arrange
         var options = new DbContextOptionsBuilder<ApiDbContext>()
             .UseInMemoryDatabase(databaseName: "DB")
             .Options;

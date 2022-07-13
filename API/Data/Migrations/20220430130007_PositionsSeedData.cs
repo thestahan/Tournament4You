@@ -13,7 +13,7 @@ namespace API.Data.Migrations
                 table: "Positions",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.InsertData(
                 table: "Positions",
