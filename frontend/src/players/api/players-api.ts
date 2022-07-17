@@ -37,8 +37,8 @@ const playersAPI = (): PlayersAPI => {
         }
       )
         .then(parseBody)
-        .then(handleErrors)
-        .then((response: { team: Team }) => response.team);
+        .then(handleErrors);
+      // .then((response: { team: Team }) => response.team);
     },
     getPositions: () => {
       return fetch(`https://localhost:7094/api/positions`, {

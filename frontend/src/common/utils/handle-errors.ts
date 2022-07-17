@@ -5,6 +5,10 @@ export interface ErrorResponse {
 }
 
 export const handleErrors = (response: ErrorResponse | any) => {
+  if (!response?.statusCode) {
+    return response;
+  }
+
   switch (response.statusCode) {
     case 400:
       if (response.errors) {

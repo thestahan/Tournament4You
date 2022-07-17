@@ -6,6 +6,13 @@ import { colors } from "common/colors";
 import { ui } from "common/index";
 import { NavLink } from "react-router-dom";
 import playersAPI from "players/api/players-api";
+import { Delete } from "@styled-icons/typicons/Delete";
+
+const PlayersContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 
 const PlayersHeaderContainer = styled.div`
   font-size: 14px;
@@ -17,7 +24,6 @@ const PlayersListContainer = styled.div`
   row-gap: 10px;
   column-gap: 10px;
   flex-wrap: wrap;
-  height: 183px;
   overflow: scroll;
 `;
 
@@ -25,26 +31,39 @@ const PlayerCardContainer = styled.div`
   height: fit-content;
   background-color: ${colors.darkMaroon};
   color: ${colors.white};
-  padding: 5px;
+  padding: 10px 20px;
   border-radius: 5px;
-  flex-basis: 200px;
   flex-grow: 1;
+
+  /* flex-basis: 200px; */
   cursor: default;
 
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
   font-size: 14px;
 `;
 
-const PlayerDeleteButton = styled.div`
-  margin-bottom: 5px;
-  font-size: 16px;
-  color: #f75151;
+const PlayerTextContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+`;
+
+const PlayerDeleteButton = styled(Delete)`
+  margin-left: 10px;
+  /* font-size: 16px; */
+  width: 24px;
+  height: 24px;
+  /* margin-left: auto; */
+  color: ${colors.white};
+  transition: color 0.2s ease-in-out;
   cursor: pointer;
   &:hover {
-    color: red;
+    color: ${colors.moderatePink};
   }
 `;
 
@@ -53,9 +72,8 @@ const PlayerPositionContainer = styled.div`
 `;
 
 const AddPlayerButtonContainer = styled.div`
-  flex-basis: 100%;
-  flex-grow: 1;
-  margin-top: 10px;
+  padding-top: 5px;
+  margin: auto auto 0 auto;
 `;
 
 const AddPlayerLink = styled(NavLink)``;
@@ -77,43 +95,38 @@ export const PlayersList = ({ team, onFormSubmit }: Props): JSX.Element => {
   }, [team.players]);
 
   const deletePlayer = (playerId: number) => {
-    api.deletePlayer(team.id, playerId);
-    setPlayers(players.filter((player) => player.id !== playerId));
+    api.deletePlayer(team.id, playerId).then(() => {
+      setPlayers(players.filter((player) => player.id !== playerId));
+    });
   };
 
   return (
-    <>
+    <PlayersContainer>
       <PlayersHeaderContainer>Players</PlayersHeaderContainer>
       {players.length ? (
         <>
           <PlayersListContainer>
             {players.map((player, index) => (
               <PlayerCardContainer key={player.id}>
-                <PlayerDeleteButton onClick={() => deletePlayer(player.id)}>
-                  Remove Player
-                </PlayerDeleteButton>
-                <PlayerPositionContainer>
-                  {player.position}
-                </PlayerPositionContainer>
-                {player.name} {player.surname}
+                <PlayerTextContent>
+                  <PlayerPositionContainer>
+                    {player.position}
+                  </PlayerPositionContainer>
+                  {player.name} {player.surname}
+                </PlayerTextContent>
+                <PlayerDeleteButton
+                  onClick={() => deletePlayer(player.id)}
+                ></PlayerDeleteButton>
               </PlayerCardContainer>
             ))}
           </PlayersListContainer>
-          <AddPlayerButtonContainer>
-            <AddPlayerLink to={addPlayerUrl}>
-              <ui.SecondaryButton width="100%">Add Player</ui.SecondaryButton>
-            </AddPlayerLink>
-          </AddPlayerButtonContainer>
         </>
-      ) : (
-        <>
-          <AddPlayerButtonContainer>
-            <AddPlayerLink to={addPlayerUrl}>
-              <ui.SecondaryButton width="100%">Add Player</ui.SecondaryButton>
-            </AddPlayerLink>
-          </AddPlayerButtonContainer>
-        </>
-      )}
-    </>
+      ) : null}
+      <AddPlayerButtonContainer>
+        <AddPlayerLink to={addPlayerUrl}>
+          <ui.SecondaryButton width="100%">Add Player</ui.SecondaryButton>
+        </AddPlayerLink>
+      </AddPlayerButtonContainer>
+    </PlayersContainer>
   );
 };

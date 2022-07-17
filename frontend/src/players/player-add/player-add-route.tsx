@@ -33,8 +33,10 @@ export const PlayerAddRoute = () => {
   }, []);
 
   const onFormSubmit = useCallback((player: NewPlayer) => {
-    history.push(`/teams/${params.teamId}`);
-    api.addPlayerToTeam(params.teamId, player);
+    api.addPlayerToTeam(params.teamId, player).then(() => {
+      history.push(`/teams/${params.teamId}`);
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
