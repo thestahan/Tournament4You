@@ -20,9 +20,17 @@ export const getToken = () => localStorage.getItem("token");
 export const isAuthenticated = (): boolean => {
   const token = getToken();
 
-  if (token === null || token === "undefined" || token === "") {
+  if (!token) {
     return false;
-  } else {
-    return true;
   }
+
+  const expirationTime = getAuthenticatedUser(token).exp;
+
+  const tokenExpired = expirationTime * 1000 < Date.now();
+
+  if (tokenExpired) {
+    return false;
+  }
+
+  return true;
 };
