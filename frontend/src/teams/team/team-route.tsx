@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { colors } from "common/colors";
 import { PageHeader } from "common/page-container";
+import playersAPI from "players/api/players-api";
 import { PlayersList } from "players/players-list/players-list";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -32,17 +33,27 @@ type Params = {
 };
 
 const TeamRoute = () => {
-  const api = teamsAPI();
+  const teamsApi = teamsAPI();
+  const playersApi = playersAPI();
   const params = useParams<Params>();
   const [team, setTeam] = useState<Team>();
 
+  const deletePlayer = (playerId: number) => {
+    if (!team) {
+      return;
+    }
+    playersApi
+      .deletePlayer(team.id, playerId)
+      .then(() => teamsApi.getTeam(team.id).then(setTeam));
+  };
+
   useEffect(() => {
-    api.getTeam(parseInt(params.teamId)).then(setTeam);
+    teamsApi.getTeam(parseInt(params.teamId)).then(setTeam);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.teamId]);
 
   const onFormSubmit = useCallback((team: Team) => {
-    api.updateTeam(team);
+    teamsApi.updateTeam(team);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -54,7 +65,11 @@ const TeamRoute = () => {
           <TeamForm onFormSubmit={onFormSubmit} team={team} />
         </ContentCard>
         <ContentCard fullWidth={true}>
-          <PlayersList team={team} onFormSubmit={onFormSubmit} />
+          <PlayersList
+            players={team.players}
+            teamId={team.id}
+            deletePlayer={deletePlayer}
+          />
         </ContentCard>
       </ContentContainer>
     </Container>

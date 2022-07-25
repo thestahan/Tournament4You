@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
 import { Player } from "players/players";
-import { useEffect, useState } from "react";
-import { Team } from "teams/teams";
 import { colors } from "common/colors";
 import { ui } from "common/index";
 import { NavLink } from "react-router-dom";
-import playersAPI from "players/api/players-api";
 import { Delete } from "@styled-icons/typicons/Delete";
 
 const PlayersContainer = styled.div`
@@ -76,37 +73,24 @@ const AddPlayerButtonContainer = styled.div`
   margin: auto auto 0 auto;
 `;
 
-const AddPlayerLink = styled(NavLink)``;
-
 type Props = {
-  team: Team;
-  onFormSubmit: (team: Team) => void;
+  players: Player[] | undefined;
+  teamId: number;
+  deletePlayer: (playerId: number) => void;
 };
 
-export const PlayersList = ({ team, onFormSubmit }: Props): JSX.Element => {
-  const [players, setPlayers] = useState<Player[]>([]);
-
-  const api = playersAPI();
-
-  const addPlayerUrl = `/teams/${team.id}/player/create`;
-
-  useEffect(() => {
-    setPlayers(team.players?.length ? team.players : []);
-  }, [team.players]);
-
-  const deletePlayer = (playerId: number) => {
-    api.deletePlayer(team.id, playerId).then(() => {
-      setPlayers(players.filter((player) => player.id !== playerId));
-    });
-  };
-
+export const PlayersList = ({
+  players,
+  teamId,
+  deletePlayer,
+}: Props): JSX.Element => {
   return (
     <PlayersContainer>
       <PlayersHeaderContainer>Players</PlayersHeaderContainer>
-      {players.length ? (
+      {players ? (
         <>
           <PlayersListContainer>
-            {players.map((player, index) => (
+            {players.map((player) => (
               <PlayerCardContainer key={player.id}>
                 <PlayerTextContent>
                   <PlayerPositionContainer>
@@ -123,9 +107,9 @@ export const PlayersList = ({ team, onFormSubmit }: Props): JSX.Element => {
         </>
       ) : null}
       <AddPlayerButtonContainer>
-        <AddPlayerLink to={addPlayerUrl}>
+        <NavLink to={`/teams/${teamId}/player/create`}>
           <ui.SecondaryButton width="100%">Add Player</ui.SecondaryButton>
-        </AddPlayerLink>
+        </NavLink>
       </AddPlayerButtonContainer>
     </PlayersContainer>
   );
