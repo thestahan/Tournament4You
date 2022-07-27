@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { colors } from "common/colors";
 import { Position } from "players/players";
 
 type Props = {
