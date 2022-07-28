@@ -3,9 +3,9 @@ import AboutRoute from "about/about-route";
 import LoginRoute from "account/login-route";
 import RegisterRoute from "account/register-route";
 import ArchiveRoute from "archive/archive-route";
-import { getToken } from "common/utils/local-storage";
 import PageContainer from "common/page-container";
 import AuthProvider from "common/provide-auth";
+import { isAuthenticated } from "common/utils/local-storage";
 import ContactRoute from "contact/contact-route";
 import DashboardRoute from "dashboard/dashboard-route";
 import { FC } from "react";
@@ -22,12 +22,12 @@ import TournamentRoute from "tournaments/tournament-route";
 const Container = styled.div``;
 
 const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
-  const token = getToken();
+  const hasAccess = isAuthenticated();
 
   return (
     <Route
       {...rest}
-      render={() => (token !== null ? children : <Redirect to={"/login"} />)}
+      render={() => (hasAccess ? children : <Redirect to={"/login"} />)}
     />
   );
 };
