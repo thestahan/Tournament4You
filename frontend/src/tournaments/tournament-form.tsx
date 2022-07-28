@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { ui } from "common/index";
 import { NewTournament } from "./tournaments";
 import { Team } from "teams/teams";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { uniqBy } from "lodash";
 
 const FormContainer = styled.div`

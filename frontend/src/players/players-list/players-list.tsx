@@ -65,25 +65,6 @@ type Props = {
   onFormSubmit: (team: Team) => void;
 };
 
-const tempConfig = [
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  // { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  // { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  // { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  // { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  // { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-  // { name: "essa1", surname: "essa2", position: "essa3", id: "1" },
-];
-
 export const PlayersList = ({ team, onFormSubmit }: Props): JSX.Element => {
   const [players, setPlayers] = useState<Player[]>([]);
 
