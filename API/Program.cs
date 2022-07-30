@@ -4,7 +4,7 @@ using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddApplicationServices(builder.Configuration, builder.Environment.IsDevelopment());
 
 builder.Services.AddIdentityServices(builder.Configuration);
 
