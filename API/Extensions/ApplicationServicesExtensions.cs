@@ -14,7 +14,7 @@ namespace API.Extensions;
 
 public static class ApplicationServicesExtensions
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config, bool isDevelopment)
     {
         var currentAssembly = Assembly.GetExecutingAssembly();
 
@@ -43,7 +43,17 @@ public static class ApplicationServicesExtensions
 
         services.AddValidatorsFromAssembly(currentAssembly);
 
-        services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(config.GetConnectionString("DbConnection")));
+        services.AddDbContext<ApiDbContext>(opt =>
+        {
+            if (isDevelopment)
+            {
+                opt.UseNpgsql(config.GetConnectionString("DbConnection"));
+            }
+            else
+            {
+                opt.UseNpgsql(Environment.GetEnvironmentVariable("PostgreSQL_ConnString")!);
+            }
+        });
 
         services.AddScoped<ITokenService, TokenService>();
 
