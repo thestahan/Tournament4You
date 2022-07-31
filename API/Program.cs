@@ -1,8 +1,16 @@
 using API.Behaviors.Middleware;
 using API.Data;
 using API.Extensions;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Environment.IsProduction())
+{
+    var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri")!);
+
+    builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+}
 
 builder.Services.AddApplicationServices(builder.Configuration, builder.Environment.IsDevelopment());
 
