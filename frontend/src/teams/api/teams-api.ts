@@ -12,9 +12,11 @@ type TeamsAPI = {
   deleteTeam: (teamID: number) => Promise<void>;
 };
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const teamsAPI = (): TeamsAPI => ({
   getTeams: () => {
-    return fetch("https://localhost:7094/api/teams", {
+    return fetch(`${apiUrl}/teams`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -25,7 +27,7 @@ const teamsAPI = (): TeamsAPI => ({
       .then((response: { teams: Team[] }) => response.teams);
   },
   getTeam: (teamID: number) => {
-    return fetch(`https://localhost:7094/api/teams/${teamID}`, {
+    return fetch(`${apiUrl}/teams/${teamID}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -36,7 +38,7 @@ const teamsAPI = (): TeamsAPI => ({
       .then((response) => response);
   },
   addTeam: (team: NewTeam) => {
-    return fetch("https://localhost:7094/api/teams", {
+    return fetch(`${apiUrl}/teams`, {
       method: "POST",
       body: JSON.stringify(team),
       headers: {
@@ -48,7 +50,7 @@ const teamsAPI = (): TeamsAPI => ({
       .then(handleErrors);
   },
   updateTeam: (team: Team) => {
-    return fetch(`https://localhost:7094/api/teams/${team.id}`, {
+    return fetch(`${apiUrl}/teams/${team.id}`, {
       method: "PUT",
       body: JSON.stringify(team),
       headers: {
@@ -60,7 +62,7 @@ const teamsAPI = (): TeamsAPI => ({
       .then(handleErrors);
   },
   deleteTeam: (teamID: number) => {
-    return fetch(`https://localhost:7094/api/teams/${teamID}`, {
+    return fetch(`${apiUrl}/teams/${teamID}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${getToken()}`,

@@ -10,9 +10,11 @@ type TournamentAPI = {
   deleteTournament: (tournamentId: number) => Promise<void>;
 };
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const tournamentAPI = (): TournamentAPI => ({
   getTournament: (tournamentId: number) => {
-    return fetch(`https://localhost:7094/api/tournaments/${tournamentId}`, {
+    return fetch(`${apiUrl}/tournaments/${tournamentId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
@@ -23,7 +25,7 @@ const tournamentAPI = (): TournamentAPI => ({
       .then((response) => response);
   },
   addTournament: (tournament: NewTournament) => {
-    return fetch("https://localhost:7094/api/tournaments", {
+    return fetch(`${apiUrl}/tournaments`, {
       method: "POST",
       body: JSON.stringify(tournament),
       headers: {
@@ -35,7 +37,7 @@ const tournamentAPI = (): TournamentAPI => ({
       .then(handleErrors);
   },
   deleteTournament: (tournamentId: number) => {
-    return fetch(`https://localhost:7094/api/tournaments/${tournamentId}`, {
+    return fetch(`${apiUrl}/tournaments/${tournamentId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${getToken()}`,

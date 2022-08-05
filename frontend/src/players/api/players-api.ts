@@ -11,10 +11,12 @@ type PlayersAPI = {
   getPositions: () => Promise<Position[]>;
 };
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const playersAPI = (): PlayersAPI => {
   return {
     addPlayerToTeam: (id, player) => {
-      return fetch(`https://localhost:7094/api/teams/${id}/players`, {
+      return fetch(`${apiUrl}/teams/${id}/players`, {
         method: "POST",
         body: JSON.stringify(player),
         headers: {
@@ -27,21 +29,18 @@ const playersAPI = (): PlayersAPI => {
         .then((response: { team: Team }) => response.team);
     },
     deletePlayer: (teamId, playerId) => {
-      return fetch(
-        `https://localhost:7094/api/teams/${teamId}/players/${playerId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        }
-      )
+      return fetch(`${apiUrl}/teams/${teamId}/players/${playerId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
         .then(parseBody)
         .then(handleErrors);
       // .then((response: { team: Team }) => response.team);
     },
     getPositions: () => {
-      return fetch(`https://localhost:7094/api/positions`, {
+      return fetch(`${apiUrl}/positions`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${getToken()}`,
