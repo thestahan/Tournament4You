@@ -19,9 +19,11 @@ type UserAPI = {
   logout: () => void;
 };
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const userAPI = (): UserAPI => ({
   register: (userPayLoad: UserRegisterPayload) => {
-    return fetch("https://localhost:7094/api/users/register", {
+    return fetch(`${apiUrl}/users/register`, {
       method: "POST",
       body: JSON.stringify(userPayLoad),
       headers: {
@@ -33,7 +35,7 @@ const userAPI = (): UserAPI => ({
   },
 
   login: (userPayLoad: UserLoginPayload) => {
-    return fetch("https://localhost:7094/api/users/login", {
+    return fetch(`${apiUrl}/users/login`, {
       method: "POST",
       body: JSON.stringify(userPayLoad),
       headers: {
