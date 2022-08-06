@@ -5,6 +5,7 @@ import RegisterRoute from "account/register-route";
 import ArchiveRoute from "archive/archive-route";
 import PageContainer from "common/page-container";
 import AuthProvider from "common/provide-auth";
+import { ToastProvider } from "common/provide-toast-notifications";
 import { isAuthenticated } from "common/utils/local-storage";
 import ContactRoute from "contact/contact-route";
 import DashboardRoute from "dashboard/dashboard-route";
@@ -64,13 +65,15 @@ const MainRoutes = () => (
 const App = () => {
   return (
     <AuthProvider>
-      <Container>
-        <Router>
-          <PageContainer>
-            <MainRoutes />
-          </PageContainer>
-        </Router>
-      </Container>
+      <ToastProvider>
+        <Container>
+          <Router>
+            <PageContainer>
+              <MainRoutes />
+            </PageContainer>
+          </Router>
+        </Container>
+      </ToastProvider>
     </AuthProvider>
   );
 };
