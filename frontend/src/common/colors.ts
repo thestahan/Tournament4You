@@ -9,4 +9,8 @@ export const colors = {
   salmon: "#F68989",
   moderatePink: "#C65D7B",
   darkMaroon: "#874356",
+  success: "#28a745",
+  info: "#17a2b8",
+  warning: "#ffeb3b",
+  error: "#dc3545",
 };
