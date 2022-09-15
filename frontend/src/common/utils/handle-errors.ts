@@ -5,11 +5,11 @@ export interface ErrorResponse {
 }
 
 export const handleErrors = (response: ErrorResponse | any) => {
-  if (!response?.statusCode) {
+  if (!response?.StatusCode) {
     return response;
   }
 
-  switch (response.statusCode) {
+  switch (response.StatusCode) {
     case 400:
       if (response.errors) {
         return Promise.reject({

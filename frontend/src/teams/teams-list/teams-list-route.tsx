@@ -1,29 +1,23 @@
-import { useCallback, useEffect, useState } from "react";
-import teamsAPI from "teams/api/teams-api";
-import { Team } from "teams/teams";
+import { useCallback, useEffect } from "react";
 import TeamsList from "./teams-list";
 import { PageHeader } from "common/page-container";
+import { useSelector } from "react-redux";
+import store from "store/store";
+import { deleteTeam, getTeams } from "teams/teams-slice";
 
 export const TeamsListRoute = () => {
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [loading, setLoading] = useState(true);
-  const api = teamsAPI();
+  const teams = useSelector((state: any) => state.teams.value);
+  const loading = useSelector((state: any) => state.teams.loading);
 
   useEffect(() => {
-    const api = teamsAPI();
-    api
-      .getTeams()
-      .then(setTeams)
-      .finally(() => setLoading(false));
-  }, []);
+    if (!teams || teams.length === 0) {
+      store.dispatch(getTeams());
+    }
+  }, [teams]);
 
   const onDelete = useCallback(
-    (teamID: number) => {
-      api.deleteTeam(teamID).finally(() => {
-        setTeams(teams.filter((t) => t.id !== teamID));
-      });
-    },
-    [api, teams]
+    (teamID: number) => store.dispatch(deleteTeam(teamID)),
+    []
   );
 
   return (
