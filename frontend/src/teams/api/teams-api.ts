@@ -7,7 +7,7 @@ import { getToken } from "../../common/utils/local-storage";
 type TeamsAPI = {
   getTeams: () => Promise<Team[]>;
   getTeam: (teamID: number) => Promise<Team>;
-  addTeam: (team: NewTeam) => Promise<void>;
+  addTeam: (team: NewTeam) => Promise<Team>;
   updateTeam: (team: Team) => Promise<Team>;
   deleteTeam: (teamID: number) => Promise<void>;
 };
@@ -67,8 +67,9 @@ const teamsAPI = (): TeamsAPI => ({
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
-    }).then(parseBody);
-    // .then(handleErrors);
+    })
+      .then(parseBody)
+      .then(handleErrors);
   },
 });
 
