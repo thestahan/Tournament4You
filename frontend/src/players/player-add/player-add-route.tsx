@@ -5,6 +5,8 @@ import playersAPI from "players/api/players-api";
 import { NewPlayer, Position } from "players/players";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import store from "store/store";
+import { getExtendedTeam } from "teams/teams-slice";
 import { PlayerForm } from "./player-form";
 
 type Params = {
@@ -34,6 +36,7 @@ export const PlayerAddRoute = () => {
 
   const onFormSubmit = useCallback((player: NewPlayer) => {
     api.addPlayerToTeam(params.teamId, player).then(() => {
+      store.dispatch(getExtendedTeam(parseInt(params.teamId)));
       history.push(`/teams/${params.teamId}`);
     });
 

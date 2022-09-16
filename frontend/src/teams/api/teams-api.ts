@@ -1,14 +1,14 @@
 import { parseBody } from "common/utils/parse-body";
-import { NewTeam, Team } from "teams/teams";
+import { ExtendedTeam, NewTeam, Team } from "teams/teams";
 
 import { handleErrors } from "../../common/utils/handle-errors";
 import { getToken } from "../../common/utils/local-storage";
 
 type TeamsAPI = {
   getTeams: () => Promise<Team[]>;
-  getTeam: (teamID: number) => Promise<Team>;
-  addTeam: (team: NewTeam) => Promise<void>;
-  updateTeam: (team: Team) => Promise<Team>;
+  getTeam: (teamID: number) => Promise<ExtendedTeam>;
+  addTeam: (team: NewTeam) => Promise<Team>;
+  updateTeam: (team: Team) => Promise<void>;
   deleteTeam: (teamID: number) => Promise<void>;
 };
 
@@ -67,8 +67,9 @@ const teamsAPI = (): TeamsAPI => ({
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
-    }).then(parseBody);
-    // .then(handleErrors);
+    })
+      .then(parseBody)
+      .then(handleErrors);
   },
 });
 

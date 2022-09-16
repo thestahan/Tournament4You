@@ -3,10 +3,12 @@ import { colors } from "common/colors";
 import { PageHeader } from "common/page-container";
 import playersAPI from "players/api/players-api";
 import { PlayersList } from "players/players-list/players-list";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import teamsAPI from "teams/api/teams-api";
+import store from "store/store";
 import { Team } from "teams/teams";
+import { getExtendedTeam, TeamState, updateTeam } from "teams/teams-slice";
 import TeamForm from "../team-add/team-form";
 
 const Container = styled.div`
@@ -33,41 +35,47 @@ type Params = {
 };
 
 const TeamRoute = () => {
-  const teamsApi = teamsAPI();
   const playersApi = playersAPI();
   const params = useParams<Params>();
-  const [team, setTeam] = useState<Team>();
+
+  const extendedTeam = useSelector((state: { teams: TeamState }) =>
+    state.teams.extendedList.find(
+      (extendedTeam) => extendedTeam.id === parseInt(params.teamId)
+    )
+  );
 
   const deletePlayer = (playerId: number) => {
-    if (!team) {
+    if (!extendedTeam) {
       return;
     }
     playersApi
-      .deletePlayer(team.id, playerId)
-      .then(() => teamsApi.getTeam(team.id).then(setTeam));
+      .deletePlayer(extendedTeam.id, playerId)
+      .then(() => store.dispatch(getExtendedTeam(extendedTeam.id)));
   };
 
   useEffect(() => {
-    teamsApi.getTeam(parseInt(params.teamId)).then(setTeam);
+    if (!extendedTeam) {
+      store.dispatch(getExtendedTeam(parseInt(params.teamId)));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.teamId]);
 
   const onFormSubmit = useCallback((team: Team) => {
-    teamsApi.updateTeam(team);
+    store.dispatch(updateTeam(team));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return team ? (
+  return extendedTeam ? (
     <Container>
       <PageHeader>Manage Team</PageHeader>
       <ContentContainer>
         <ContentCard>
-          <TeamForm onFormSubmit={onFormSubmit} team={team} />
+          <TeamForm onFormSubmit={onFormSubmit} team={extendedTeam} />
         </ContentCard>
         <ContentCard fullWidth={true}>
           <PlayersList
-            players={team.players}
-            teamId={team.id}
+            players={extendedTeam.players}
+            teamId={extendedTeam.id}
             deletePlayer={deletePlayer}
           />
         </ContentCard>

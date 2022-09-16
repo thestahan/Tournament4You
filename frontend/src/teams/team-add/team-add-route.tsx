@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import { PageHeader } from "common/page-container";
-import teamsAPI from "teams/api/teams-api";
 import TeamForm from "./team-form";
 import { useCallback } from "react";
 import { NewTeam } from "teams/teams";
 import { colors } from "common/colors";
+import store from "store/store";
+import { addTeam } from "teams/teams-slice";
 
 const Container = styled.div`
   height: 100%;
@@ -20,11 +21,8 @@ const Content = styled.div<{ fullWidth?: boolean }>`
 `;
 
 const TeamAddRoute = () => {
-  const api = teamsAPI();
-
   const onFormSubmit = useCallback((team: NewTeam) => {
-    api.addTeam(team);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    store.dispatch(addTeam(team));
   }, []);
 
   return (
