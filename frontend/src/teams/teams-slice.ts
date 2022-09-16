@@ -5,25 +5,34 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import teamsAPI from "teams/api/teams-api";
-import { NewTeam, Team } from "teams/teams";
+import { ExtendedTeam, NewTeam, Team } from "teams/teams";
 
 export const actionsTypes = {
   GET_TEAMS: "GET_TEAMS",
   ADD_TEAM: "ADD_TEAM",
   DELETE_TEAM: "DELETE_TEAM",
+  UPDATE_TEAM: "UPDATE_TEAM",
+  GET_EXTENDED_TEAM: "GET_EXTENDED_TEAM",
 };
 
-export interface State {
-  value: Team[];
-  loading: boolean;
+export interface TeamState {
+  list: Team[];
+  extendedList: ExtendedTeam[];
+  listLoading: boolean;
+  extendedListLoading: boolean;
   error?: any;
 }
+
 interface RejectedAction extends Action {
   error: Error;
 }
 
 function isRejectedAction(action: AnyAction): action is RejectedAction {
   return action.type.endsWith("rejected");
+}
+
+function isPendingAction(action: AnyAction): action is Action {
+  return action.type.endsWith("pending");
 }
 
 const name = "teams";
@@ -35,53 +44,96 @@ export const teamsSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    const { fulfilled: getTeamsSuccess, pending: getTeamsLoading } =
-      teamsActions.getTeams;
+    const { fulfilled: getTeamsSuccess } = teamsActions.getTeams;
 
     builder.addCase(getTeamsSuccess, (state, action) => {
-      state.value = action.payload;
-      state.loading = false;
+      state.list = action.payload;
+      state.listLoading = false;
     });
 
-    builder.addCase(getTeamsLoading, (state, action) => {
-      state.loading = true;
-    });
-
-    const { fulfilled: deleteTeamSuccess, pending: deleteTeamLoading } =
-      teamsActions.deleteTeam;
+    const { fulfilled: deleteTeamSuccess } = teamsActions.deleteTeam;
 
     builder.addCase(deleteTeamSuccess, (state, action) => {
-      state.value = state.value.filter(
+      state.list = state.list.filter(
         (team) => team.id !== (action.payload as unknown as number)
       );
-      state.loading = false;
-    });
-    builder.addCase(deleteTeamLoading, (state, action) => {
-      state.loading = true;
+      state.listLoading = false;
     });
 
-    const { fulfilled: addTeamSuccess, pending: addTeamLoading } =
-      teamsActions.addTeam;
+    const { fulfilled: addTeamSuccess } = teamsActions.addTeam;
 
     builder.addCase(addTeamSuccess, (state, action) => {
-      if (!state.value.some((team) => team.id === action.payload.id)) {
-        state.value = [...state.value, action.payload];
+      if (!state.list.some((team) => team.id === action.payload.id)) {
+        state.list = [...state.list, action.payload];
       }
-      state.loading = false;
+      state.listLoading = false;
     });
-    builder.addCase(addTeamLoading, (state, action) => {
-      state.loading = true;
+
+    const { fulfilled: getExtendedTeamSuccess } = teamsActions.getExtendedTeam;
+
+    builder.addCase(getExtendedTeamSuccess, (state, action) => {
+      const newExtendedTeam = action.payload;
+
+      if (state.extendedList.some((team) => team.id === newExtendedTeam.id)) {
+        removeAndInsertElementFromArray(state.extendedList, newExtendedTeam);
+        return;
+      }
+
+      state.extendedList.push(newExtendedTeam);
+      state.extendedListLoading = false;
+    });
+
+    const { fulfilled: updateTeamSuccess } = teamsActions.updateTeam;
+
+    builder.addCase(updateTeamSuccess, (state, action) => {
+      const updatedTeam = action.payload;
+      const includedInList = checkIfIncludedInArray(state.list, updatedTeam);
+      const includedInExtendedList = checkIfIncludedInArray(
+        state.extendedList,
+        updatedTeam
+      );
+
+      if (includedInList) {
+        removeAndInsertElementFromArray(state.list, updatedTeam);
+      }
+
+      if (includedInExtendedList) {
+        removeAndInsertElementFromArray(state.extendedList, updatedTeam, true);
+      }
+      state.listLoading = false;
+      state.extendedListLoading = false;
+    });
+
+    builder.addMatcher(isPendingAction, (state, action) => {
+      if (action.type === "UPDATE_TEAM") {
+        state.extendedListLoading = true;
+        state.listLoading = true;
+        return;
+      }
+
+      action.type.includes("EXTENDED")
+        ? (state.extendedListLoading = true)
+        : (state.listLoading = true);
     });
 
     builder.addMatcher(isRejectedAction, (state, action) => {
-      state.error = action.error;
-      state.loading = false;
+      state.error = false;
+
+      action.type.includes("EXTENDED")
+        ? (state.extendedListLoading = false)
+        : (state.listLoading = false);
     });
   },
 });
 
-function getInitialState(): State {
-  return { value: [], loading: false, error: false };
+function getInitialState(): TeamState {
+  return {
+    list: [],
+    extendedList: [],
+    error: false,
+    listLoading: false,
+    extendedListLoading: false,
+  };
 }
 
 function getTeamsActions() {
@@ -91,6 +143,8 @@ function getTeamsActions() {
     getTeams: getTeams(),
     deleteTeam: deleteTeam(),
     addTeam: addTeam(),
+    getExtendedTeam: getExtendedTeam(),
+    updateTeam: updateTeam(),
   };
 
   function getTeams() {
@@ -113,6 +167,42 @@ function getTeamsActions() {
       async (team: NewTeam) => await api.addTeam(team).then((team) => team)
     );
   }
+
+  function getExtendedTeam() {
+    return createAsyncThunk(
+      actionsTypes.GET_EXTENDED_TEAM,
+      async (id: number) => await api.getTeam(id)
+    );
+  }
+
+  function updateTeam() {
+    return createAsyncThunk(
+      actionsTypes.UPDATE_TEAM,
+      async (team: Team) => await api.updateTeam(team).then(() => team)
+    );
+  }
 }
 
-export const { getTeams, deleteTeam, addTeam } = teamsActions;
+function removeAndInsertElementFromArray(
+  list: any[],
+  elementToDelete: any,
+  hasExtendedArray: boolean = false
+) {
+  const indexToDelete = list.findIndex(
+    (element) => element?.id === elementToDelete?.id
+  );
+  const players = hasExtendedArray ? list[indexToDelete]?.players : null;
+  list.splice(indexToDelete, 1);
+  list.push(
+    hasExtendedArray
+      ? { ...elementToDelete, players: players }
+      : elementToDelete
+  );
+}
+
+function checkIfIncludedInArray(list: any[], elementToCheck: any): boolean {
+  return list.some((element) => element?.id === elementToCheck?.id);
+}
+
+export const { getTeams, deleteTeam, addTeam, updateTeam, getExtendedTeam } =
+  teamsActions;

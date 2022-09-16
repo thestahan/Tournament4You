@@ -4,8 +4,11 @@ export type Team = {
   name: string;
   city: string;
   coach: string;
-  players?: Player[];
   id: number;
 };
+
+export interface ExtendedTeam extends Team {
+  players: Player[];
+}
 
 export type NewTeam = { name: string; city: string; coach: string };
