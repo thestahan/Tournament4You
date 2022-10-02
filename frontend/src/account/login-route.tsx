@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import userAPI from "account/api/user-api";
+import { Loader } from "common/loader";
 import * as ui from "common/ui";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -30,6 +31,7 @@ type ValidationErrors = {
 const LoginRoute: React.FC = () => {
   const api = userAPI();
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: { password: "", email: "" },
@@ -51,6 +53,7 @@ const LoginRoute: React.FC = () => {
       return errors;
     },
     onSubmit: ({ email, password }) => {
+      setLoading(true);
       api
         .login({
           email: email,
@@ -62,47 +65,54 @@ const LoginRoute: React.FC = () => {
             window.location.href = "/";
           }
         })
-        .catch((error) => setErrorMessage(error.message));
+        .catch((error) => {
+          setErrorMessage(error.message);
+          setLoading(false);
+        });
     },
   });
 
   return (
     <Container>
-      <form onSubmit={formik.handleSubmit}>
-        <FormContainer>
-          <ui.Error message={errorMessage}></ui.Error>
-          <ui.StyledInput
-            id="email"
-            name="email"
-            value={formik.values.email}
-            placeholder="Email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            incorrect={formik.touched.email && !!formik.errors.email}
-          ></ui.StyledInput>
-          {formik.errors.email && formik.touched.email && (
-            <ui.ValidationMessage>{formik.errors.email}</ui.ValidationMessage>
-          )}
+      {loading ? (
+        <Loader />
+      ) : (
+        <form onSubmit={formik.handleSubmit}>
+          <FormContainer>
+            <ui.Error message={errorMessage}></ui.Error>
+            <ui.StyledInput
+              id="email"
+              name="email"
+              value={formik.values.email}
+              placeholder="Email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              incorrect={formik.touched.email && !!formik.errors.email}
+            ></ui.StyledInput>
+            {formik.errors.email && formik.touched.email && (
+              <ui.ValidationMessage>{formik.errors.email}</ui.ValidationMessage>
+            )}
 
-          <ui.PasswordInput
-            label="Password"
-            value={formik.values.password}
-            setValue={formik.handleChange}
-            onBlur={formik.handleBlur}
-            id="password"
-            name="password"
-            incorrect={formik.touched.password && !!formik.errors.password}
-          ></ui.PasswordInput>
-          {formik.errors.password && formik.touched.password && (
-            <ui.ValidationMessage>
-              {formik.errors.password}
-            </ui.ValidationMessage>
-          )}
-          <ButtonContainer>
-            <ui.PrimaryButton type="submit">Log in</ui.PrimaryButton>
-          </ButtonContainer>
-        </FormContainer>
-      </form>
+            <ui.PasswordInput
+              label="Password"
+              value={formik.values.password}
+              setValue={formik.handleChange}
+              onBlur={formik.handleBlur}
+              id="password"
+              name="password"
+              incorrect={formik.touched.password && !!formik.errors.password}
+            ></ui.PasswordInput>
+            {formik.errors.password && formik.touched.password && (
+              <ui.ValidationMessage>
+                {formik.errors.password}
+              </ui.ValidationMessage>
+            )}
+            <ButtonContainer>
+              <ui.PrimaryButton type="submit">Log in</ui.PrimaryButton>
+            </ButtonContainer>
+          </FormContainer>
+        </form>
+      )}
     </Container>
   );
 };

@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { Loader } from "common/loader";
 
 const Container = styled.div`
   height: 100%;
@@ -34,6 +35,8 @@ const RegisterRoute: React.FC = () => {
   const api = userAPI();
 
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -73,6 +76,7 @@ const RegisterRoute: React.FC = () => {
       return errors;
     },
     onSubmit: ({ email, password, firstname, lastname }) => {
+      setLoading(true);
       api
         .register({
           email: email,
@@ -89,70 +93,77 @@ const RegisterRoute: React.FC = () => {
             })
             .then(() => history.push("/"))
         )
-        .catch((error) => setErrorMessage(error.message));
+        .catch((error) => {
+          setErrorMessage(error.message);
+          setLoading(false);
+        });
     },
   });
 
   return (
     <Container>
-      <form onSubmit={formik.handleSubmit}>
-        <FormContainer>
-          <ui.Error message={errorMessage}></ui.Error>
-          <ui.StyledInput
-            placeholder="Email"
-            name="email"
-            id="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          ></ui.StyledInput>
-          {formik.errors.email && formik.touched.email && (
-            <ui.ValidationMessage>{formik.errors.email}</ui.ValidationMessage>
-          )}
-          <ui.StyledInput
-            placeholder="Firstname"
-            name="firstname"
-            id="firstname"
-            value={formik.values.firstname}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          ></ui.StyledInput>
-          {formik.errors.firstname && formik.touched.firstname && (
-            <ui.ValidationMessage>
-              {formik.errors.firstname}
-            </ui.ValidationMessage>
-          )}
-          <ui.StyledInput
-            placeholder="Lastname"
-            name="lastname"
-            id="lastname"
-            value={formik.values.lastname}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          ></ui.StyledInput>
-          {formik.errors.lastname && formik.touched.lastname && (
-            <ui.ValidationMessage>
-              {formik.errors.lastname}
-            </ui.ValidationMessage>
-          )}
-          <ui.PasswordInput
-            label="Password"
-            name="password"
-            id="password"
-            value={formik.values.password}
-            setValue={formik.handleChange}
-            onBlur={formik.handleBlur}
-          ></ui.PasswordInput>
-          {formik.errors.password && formik.touched.password && (
-            <ui.ValidationMessage>
-              {formik.errors.password}
-            </ui.ValidationMessage>
-          )}
-          <ButtonContainer>
-            <ui.PrimaryButton type="submit">Register</ui.PrimaryButton>
-          </ButtonContainer>
-        </FormContainer>
-      </form>
+      {loading ? (
+        <Loader />
+      ) : (
+        <form onSubmit={formik.handleSubmit}>
+          <FormContainer>
+            <ui.Error message={errorMessage}></ui.Error>
+            <ui.StyledInput
+              placeholder="Email"
+              name="email"
+              id="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            ></ui.StyledInput>
+            {formik.errors.email && formik.touched.email && (
+              <ui.ValidationMessage>{formik.errors.email}</ui.ValidationMessage>
+            )}
+            <ui.StyledInput
+              placeholder="Firstname"
+              name="firstname"
+              id="firstname"
+              value={formik.values.firstname}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            ></ui.StyledInput>
+            {formik.errors.firstname && formik.touched.firstname && (
+              <ui.ValidationMessage>
+                {formik.errors.firstname}
+              </ui.ValidationMessage>
+            )}
+            <ui.StyledInput
+              placeholder="Lastname"
+              name="lastname"
+              id="lastname"
+              value={formik.values.lastname}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            ></ui.StyledInput>
+            {formik.errors.lastname && formik.touched.lastname && (
+              <ui.ValidationMessage>
+                {formik.errors.lastname}
+              </ui.ValidationMessage>
+            )}
+            <ui.PasswordInput
+              label="Password"
+              name="password"
+              id="password"
+              value={formik.values.password}
+              setValue={formik.handleChange}
+              onBlur={formik.handleBlur}
+            ></ui.PasswordInput>
+            {formik.errors.password && formik.touched.password && (
+              <ui.ValidationMessage>
+                {formik.errors.password}
+              </ui.ValidationMessage>
+            )}
+            <ButtonContainer>
+              <ui.PrimaryButton type="submit">Register</ui.PrimaryButton>
+            </ButtonContainer>
+          </FormContainer>
+        </form>
+      )}
     </Container>
   );
 };
